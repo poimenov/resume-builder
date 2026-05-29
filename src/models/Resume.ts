@@ -1,4 +1,3 @@
-// // src/models/Resume.ts
 export interface BasicInfo {
   name: string;
   email: string;

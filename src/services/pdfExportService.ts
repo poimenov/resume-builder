@@ -1,7 +1,6 @@
 import type { Resume } from "../models/Resume";
 import { getTemplateById } from "../templates/index";
 
-// Создаем React компонент в строку для печати
 export const generatePrintHTML = (
   resume: Resume,
   templateId: string,

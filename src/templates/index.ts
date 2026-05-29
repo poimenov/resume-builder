@@ -20,7 +20,6 @@ export const getTemplateById = (id: string): Template => {
   return templates.find((t) => t.id === id) || templates[0];
 };
 
-// Используем React.createElement вместо JSX
 export const TemplatePreview: React.FC<{
   template: Template;
   resume: Resume;

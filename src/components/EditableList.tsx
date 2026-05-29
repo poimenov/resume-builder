@@ -1,4 +1,3 @@
-// src/components/EditableList.tsx
 import React, { useState } from "react";
 import {
   Button,

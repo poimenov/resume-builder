@@ -1,4 +1,3 @@
-// src/templates/ClassicTemplate.tsx
 import React from "react";
 import {
   makeStyles,

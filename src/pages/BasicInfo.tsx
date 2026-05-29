@@ -1,4 +1,3 @@
-// src/pages/BasicInfo.tsx
 import {
   makeStyles,
   tokens,

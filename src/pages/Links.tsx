@@ -1,31 +1,3 @@
-// import { makeStyles, tokens, Title1 } from "@fluentui/react-components";
-// import { Link32Regular } from "@fluentui/react-icons";
-// import { useTranslation } from "react-i18next";
-
-// const useStyles = makeStyles({
-//   header: {
-//     height: "50px",
-//     padding: tokens.spacingHorizontalL,
-//     display: "flex",
-//     alignItems: "center",
-//     gap: tokens.spacingHorizontalS,
-//   },
-// });
-
-// export const Links: React.FC = () => {
-//   const classes = useStyles();
-//   const { t } = useTranslation();
-
-//   return (
-//     <div>
-//       <div className={classes.header}>
-//         <Link32Regular />
-//         <Title1>{t("links.title")}</Title1>
-//       </div>
-//     </div>
-//   );
-// };
-// src/pages/Links.tsx
 import React, { useState } from "react";
 import {
   makeStyles,

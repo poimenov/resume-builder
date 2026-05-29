@@ -1,31 +1,3 @@
-// import { makeStyles, tokens, Title1 } from "@fluentui/react-components";
-// import { Sparkle32Regular } from "@fluentui/react-icons";
-// import { useTranslation } from "react-i18next";
-
-// const useStyles = makeStyles({
-//   header: {
-//     height: "50px",
-//     padding: tokens.spacingHorizontalL,
-//     display: "flex",
-//     alignItems: "center",
-//     gap: tokens.spacingHorizontalS,
-//   },
-// });
-
-// export const Skills: React.FC = () => {
-//   const classes = useStyles();
-//   const { t } = useTranslation();
-
-//   return (
-//     <div>
-//       <div className={classes.header}>
-//         <Sparkle32Regular />
-//         <Title1>{t("skills.title")}</Title1>
-//       </div>
-//     </div>
-//   );
-// };
-// src/pages/Skills.tsx (кастомная версия)
 import React, { useState } from "react";
 import {
   makeStyles,

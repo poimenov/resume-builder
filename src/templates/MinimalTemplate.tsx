@@ -1,4 +1,3 @@
-// src/templates/MinimalTemplate.tsx
 import React from "react";
 import { makeStyles, tokens, Text, Body1 } from "@fluentui/react-components";
 import type { Resume } from "../models/Resume";

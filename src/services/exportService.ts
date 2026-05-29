@@ -1,4 +1,3 @@
-// src/services/exportService.ts
 import type { Resume } from "../models/Resume";
 
 // Экспорт резюме в JSON файл

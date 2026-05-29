@@ -1,4 +1,3 @@
-// // src/components/Preview.tsx (упрощенная версия без кнопки печати)
 import React from "react";
 import { makeStyles, tokens, Card, Text } from "@fluentui/react-components";
 import { useStore } from "@nanostores/react";

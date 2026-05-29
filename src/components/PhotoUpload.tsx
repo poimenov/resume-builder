@@ -1,4 +1,3 @@
-// src/components/PhotoUpload.tsx
 import React, { useRef } from "react";
 import { Button, makeStyles, tokens, Text } from "@fluentui/react-components";
 import { Image20Regular } from "@fluentui/react-icons";

@@ -1,4 +1,3 @@
-// src/components/PrintResume.tsx
 import React from "react";
 import type { Resume } from "../models/Resume";
 import { getTemplateById } from "../templates/index";

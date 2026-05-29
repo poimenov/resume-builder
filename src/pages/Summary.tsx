@@ -1,31 +1,3 @@
-// import { makeStyles, tokens, Title1 } from "@fluentui/react-components";
-// import { DocumentText32Regular } from "@fluentui/react-icons";
-// import { useTranslation } from "react-i18next";
-
-// const useStyles = makeStyles({
-//   header: {
-//     height: "50px",
-//     padding: tokens.spacingHorizontalL,
-//     display: "flex",
-//     alignItems: "center",
-//     gap: tokens.spacingHorizontalS,
-//   },
-// });
-
-// export const Summary: React.FC = () => {
-//   const classes = useStyles();
-//   const { t } = useTranslation();
-
-//   return (
-//     <div>
-//       <div className={classes.header}>
-//         <DocumentText32Regular />
-//         <Title1>{t("summary.title")}</Title1>
-//       </div>
-//     </div>
-//   );
-// };
-
 import React from "react";
 import { makeStyles, tokens, Title1 } from "@fluentui/react-components";
 import { DocumentText20Regular } from "@fluentui/react-icons";

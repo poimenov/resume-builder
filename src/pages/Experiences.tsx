@@ -1,31 +1,3 @@
-// import { makeStyles, tokens, Title1 } from "@fluentui/react-components";
-// import { Briefcase32Regular } from "@fluentui/react-icons";
-// import { useTranslation } from "react-i18next";
-
-// const useStyles = makeStyles({
-//   header: {
-//     height: "50px",
-//     padding: tokens.spacingHorizontalL,
-//     display: "flex",
-//     alignItems: "center",
-//     gap: tokens.spacingHorizontalS,
-//   },
-// });
-
-// export const Experiences: React.FC = () => {
-//   const classes = useStyles();
-//   const { t } = useTranslation();
-
-//   return (
-//     <div>
-//       <div className={classes.header}>
-//         <Briefcase32Regular />
-//         <Title1>{t("experiences.title")}</Title1>
-//       </div>
-//     </div>
-//   );
-// };
-// src/pages/Experiences.tsx
 import React from "react";
 import { makeStyles, tokens, Title1, Text } from "@fluentui/react-components";
 import { Briefcase20Regular } from "@fluentui/react-icons";

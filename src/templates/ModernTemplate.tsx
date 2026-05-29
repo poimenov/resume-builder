@@ -1,4 +1,3 @@
-// src/templates/ModernTemplate.tsx (обновленная версия с обработкой HTML)
 import React from "react";
 import { makeStyles, tokens, Card, Body1 } from "@fluentui/react-components";
 import type { Resume } from "../models/Resume";
