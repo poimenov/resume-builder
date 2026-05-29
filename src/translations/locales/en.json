@@ -1,0 +1,68 @@
+{
+  "appName": "Resume Builder",
+  "actions": {
+    "add ": "Add",
+    "update": "Update",
+    "delete": "Delete",
+    "switchToLanguage": "Switch to Language",
+    "switchToDark": "Switch to Dark Mode",
+    "switchToLight": "Switch to Light Mode",
+    "expand": "Expand Sidebar",
+    "collapse": "Collapse Sidebar"
+  },
+  "basicInfo": {
+    "title": "Basic Info",
+    "choosePicture": "Choose Picture",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "position": "Position",
+    "location": "Location"
+  },
+  "links": {
+    "title": "Links",
+    "link": "Link"
+  },
+  "summary": {
+    "title": "Summary"
+  },
+  "experiences": {
+    "title": "Experiences",
+    "company": "Company",
+    "position": "Position",
+    "location": "Location",
+    "period": "Period",
+    "description": "Description",
+    "website": "Website"
+  },
+  "educations": {
+    "title": "Educations",
+    "school": "School",
+    "degree": "Degree",
+    "period": "Period",
+    "area": "Area",
+    "grade": "Grade",
+    "location": "Location",
+    "website": "Website"
+  },
+  "skills": {
+    "title": "Skills",
+    "skillsGroup": "Skills Group",
+    "keywords": "Keywords",
+    "keyword": "Keyword"
+  },
+  "certifications": {
+    "title": "Certifications",
+    "name": "Title",
+    "issuer": "Issuer",
+    "date": "Date",
+    "label": "Label",
+    "website": "Website"
+  },
+  "languages": {
+    "title": "Languages",
+    "name": "Language Name",
+    "fluency": "Fluency",
+    "level": "Level"
+  }
+}

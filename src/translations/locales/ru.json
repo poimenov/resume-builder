@@ -1,0 +1,68 @@
+{
+  "appName": "Построитель резюме",
+  "actions": {
+    "add ": "Добавить",
+    "update": "Обновить",
+    "delete": "Удалить",
+    "switchToLanguage": "Переключить язык",
+    "switchToDark": "Переключиться в темный режим",
+    "switchToLight": "Переключиться в светлый режим",
+    "expand": "Развернуть боковую панель",
+    "collapse": "Свернуть боковую панель"
+  },
+  "basicInfo": {
+    "title": "Основное",
+    "choosePicture": "Выбрать фото",
+    "name": "Имя",
+    "email": "Эл. почта",
+    "phone": "Телефон",
+    "position": "Позиция",
+    "location": "Местоположение"
+  },
+  "links": {
+    "title": "Ссылки",
+    "link": "Ссылка"
+  },
+  "summary": {
+    "title": "Резюме"
+  },
+  "experiences": {
+    "title": "Опыт Работы",
+    "company": "Компания",
+    "position": "Позиция",
+    "location": "Местоположение",
+    "period": "Период",
+    "description": "Описание",
+    "website": "Сайт"
+  },
+  "educations": {
+    "title": "Образование",
+    "school": "Учебное заведение",
+    "degree": "Степень",
+    "period": "Период",
+    "area": "Область",
+    "grade": "Квалификация",
+    "location": "Местоположение",
+    "website": "Сайт"
+  },
+  "skills": {
+    "title": "Навыки",
+    "skillsGroup": "Группа навыков",
+    "keywords": "Ключевые слова",
+    "keyword": "Ключевое слово"
+  },
+  "certifications": {
+    "title": "Сертификаты",
+    "name": "Название",
+    "issuer": "Издатель",
+    "date": "Дата",
+    "label": "Метка",
+    "website": "Сайт"
+  },
+  "languages": {
+    "title": "Языки",
+    "name": "Название языка",
+    "fluency": "Степень владения",
+    "level": "Уровень"
+  }
+}
