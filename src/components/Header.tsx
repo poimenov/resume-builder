@@ -11,7 +11,6 @@ import {
   MenuItem,
   MenuDivider,
   Dialog,
-  DialogTrigger,
   DialogSurface,
   DialogTitle,
   DialogBody,
@@ -20,15 +19,13 @@ import {
   Button,
 } from "@fluentui/react-components";
 import {
+  Checkmark20Regular,
   Settings20Regular,
   WeatherMoonRegular,
   WeatherSunnyRegular,
   LocalLanguage20Regular,
   Save20Regular,
-  FolderOpen20Regular,
   Print24Regular,
-  DocumentPdf20Regular,
-  Delete20Regular,
   Share20Regular,
 } from "@fluentui/react-icons";
 import { useTranslation } from "react-i18next";
@@ -75,6 +72,11 @@ const useStyles = makeStyles({
   toolbar: {
     gap: tokens.spacingHorizontalS,
   },
+  stack: {
+    display: "flex",
+    gap: tokens.spacingHorizontalS,
+    alignItems: "center",
+  },
 });
 
 export const Header: React.FC<HeaderProps> = ({
@@ -109,7 +111,7 @@ export const Header: React.FC<HeaderProps> = ({
       "width=800,height=600",
     );
     if (!printWindow) {
-      alert("Пожалуйста, разрешите всплывающие окна для печати резюме");
+      alert(t("importDialog.printWindowAlert"));
     }
   };
 
@@ -121,10 +123,9 @@ export const Header: React.FC<HeaderProps> = ({
           setFullResume(importedResume);
           setImportDialogOpen(false);
           setImportFile(null);
-          alert("Резюме успешно импортировано!");
         },
         (error) => {
-          alert(`Ошибка импорта: ${error}`);
+          console.error(`Import error: ${error}`);
         },
       );
     }
@@ -136,7 +137,7 @@ export const Header: React.FC<HeaderProps> = ({
       if (file.type === "application/json" || file.name.endsWith(".json")) {
         setImportFile(file);
       } else {
-        alert("Пожалуйста, выберите JSON файл");
+        alert(t("importDialog.jsonFileAlert"));
         event.target.value = "";
       }
     }
@@ -163,7 +164,7 @@ export const Header: React.FC<HeaderProps> = ({
         <Menu>
           <MenuTrigger disableButtonEnhancement>
             <ToolbarButton appearance="primary" icon={<Settings20Regular />}>
-              Меню
+              {t("menu.title")}
             </ToolbarButton>
           </MenuTrigger>
           <MenuPopover>
@@ -171,16 +172,16 @@ export const Header: React.FC<HeaderProps> = ({
               {/* Подменю Файл */}
               <Menu>
                 <MenuTrigger disableButtonEnhancement>
-                  <MenuItem icon={<Save20Regular />}>Файл</MenuItem>
+                  <MenuItem icon={<Save20Regular />}>{t("menu.file.title")}</MenuItem>
                 </MenuTrigger>
                 <MenuPopover>
                   <MenuList>
-                    <MenuItem onClick={handleNewResume}>Новое резюме</MenuItem>
+                    <MenuItem onClick={handleNewResume}>{t("menu.file.new")}</MenuItem>
                     <MenuItem onClick={() => setImportDialogOpen(true)}>
-                      Импорт из JSON
+                      {t("menu.file.import")}
                     </MenuItem>
                     <MenuItem onClick={handleExportJSON}>
-                      Экспорт в JSON
+                      {t("menu.file.export")}
                     </MenuItem>
                   </MenuList>
                 </MenuPopover>
@@ -189,7 +190,7 @@ export const Header: React.FC<HeaderProps> = ({
               {/* Подменю Шаблоны */}
               <Menu>
                 <MenuTrigger disableButtonEnhancement>
-                  <MenuItem icon={<Share20Regular />}>Шаблоны</MenuItem>
+                  <MenuItem icon={<Share20Regular />}>{t("menu.templates.title")}</MenuItem>
                 </MenuTrigger>
                 <MenuPopover>
                   <MenuList>
@@ -198,8 +199,11 @@ export const Header: React.FC<HeaderProps> = ({
                         key={template.id}
                         onClick={() => onTemplateChange(template.id)}
                       >
-                        {template.name}
-                        {currentTemplate === template.id && " ✓"}
+                        <div className={styles.stack}>
+                          {currentTemplate === template.id && <Checkmark20Regular />}
+                          {currentTemplate !== template.id && <span style={{ width: "20px" }}>&nbsp;</span>}
+                          {t(`menu.templates.${template.id}`)}
+                        </div>
                       </MenuItem>
                     ))}
                   </MenuList>
@@ -210,7 +214,7 @@ export const Header: React.FC<HeaderProps> = ({
 
               {/* Печать */}
               <MenuItem icon={<Print24Regular />} onClick={handlePrint}>
-                Печать / PDF
+                {t("menu.print")}
               </MenuItem>
 
               <MenuDivider />
@@ -222,13 +226,13 @@ export const Header: React.FC<HeaderProps> = ({
                   isDarkMode ? <WeatherSunnyRegular /> : <WeatherMoonRegular />
                 }
               >
-                {isDarkMode ? "Светлая тема" : "Темная тема"}
+                {isDarkMode ? t("menu.lightMode") : t("menu.darkMode")}
               </MenuItem>
 
               {/* Подменю Язык */}
               <Menu>
                 <MenuTrigger disableButtonEnhancement>
-                  <MenuItem icon={<LocalLanguage20Regular />}>Язык</MenuItem>
+                  <MenuItem icon={<LocalLanguage20Regular />}>{t("menu.language")}</MenuItem>
                 </MenuTrigger>
                 <MenuPopover>
                   <MenuList>
@@ -237,8 +241,11 @@ export const Header: React.FC<HeaderProps> = ({
                         key={lang.code}
                         onClick={() => i18n.changeLanguage(lang.code)}
                       >
-                        {lang.label}
-                        {i18n.language === lang.code && " ✓"}
+                        <div className={styles.stack}>
+                          {i18n.language === lang.code && <Checkmark20Regular />}
+                          {i18n.language !== lang.code && <span style={{ width: "20px" }}>&nbsp;</span>}
+                          {lang.label}
+                        </div>
                       </MenuItem>
                     ))}
                   </MenuList>
@@ -256,7 +263,7 @@ export const Header: React.FC<HeaderProps> = ({
       >
         <DialogSurface>
           <DialogBody>
-            <DialogTitle>Импорт резюме</DialogTitle>
+            <DialogTitle>{t("importDialog.title")}</DialogTitle>
             <DialogContent>
               <input
                 type="file"
@@ -270,14 +277,14 @@ export const Header: React.FC<HeaderProps> = ({
                 appearance="secondary"
                 onClick={() => setImportDialogOpen(false)}
               >
-                Отмена
+                {t("importDialog.cancelButton")}
               </Button>
               <Button
                 appearance="primary"
                 onClick={handleImport}
                 disabled={!importFile}
               >
-                Импортировать
+                {t("importDialog.importButton")}
               </Button>
             </DialogActions>
           </DialogBody>

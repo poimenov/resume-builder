@@ -64,5 +64,32 @@
     "name": "Language Name",
     "fluency": "Fluency",
     "level": "Level"
+  },
+  "menu": {
+    "title": "Menu",
+    "file":{
+      "title": "File",
+      "new": "New Resume",
+      "import": "Import from JSON",
+      "export": "Export to JSON"
+    },
+    "templates": {
+      "title": "Templates",
+      "modern": "Modern",
+      "classic": "Classic",
+      "minimal": "Minimal"
+    },
+    "print": "Print PDF",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "language": "Language"
+  },
+  "importDialog": {
+    "title": "Import Resume",
+    "importButton": "Import",
+    "cancelButton": "Cancel",
+    "printWindowAlert": "Please allow pop-ups to print the resume",
+    "importSuccessAlert": "Resume imported successfully!",
+    "jsonFileAlert": "Please select a JSON file"
   }
 }

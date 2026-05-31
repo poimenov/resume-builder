@@ -64,5 +64,32 @@
     "name": "Название языка",
     "fluency": "Степень владения",
     "level": "Уровень"
-  }
+  },
+  "menu": {
+    "title": "Меню",
+    "file":{
+      "title": "Файл",
+      "new": "Новое резюме",
+      "import": "Импорт из JSON",
+      "export": "Экспорт в JSON"
+    },
+    "templates": {
+      "title": "Шаблоны",
+      "modern": "Современный",
+      "classic": "Классический",
+      "minimal": "Минимальный"
+    },
+    "print": "Печать PDF",
+    "darkMode": "Темный режим",
+    "lightMode": "Светлый режим",
+    "language": "Язык"
+  },
+  "importDialog": {
+    "title": "Импорт резюме",
+    "cancelButton": "Отмена",
+    "importButton": "Импортировать",
+    "printWindowAlert": "Пожалуйста, разрешите всплывающие окна для печати резюме",
+    "importSuccessAlert": "Резюме успешно импортировано!",
+    "jsonFileAlert": "Пожалуйста, выберите JSON файл"
+  }  
 }
