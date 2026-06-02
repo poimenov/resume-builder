@@ -76,7 +76,9 @@
     "area": "Area",
     "grade": "Grade",
     "location": "Location",
-    "website": "Website"
+    "website": "Website",
+    "titleAdd": "Add Education",
+    "titleEdit": "Edit Education"
   },
   "skills": {
     "title": "Skills",
@@ -89,8 +91,11 @@
     "name": "Title",
     "issuer": "Issuer",
     "date": "Date",
+    "datePlaceholder": "March 2024",
     "label": "Label",
-    "website": "Website"
+    "website": "Website",
+    "titleAdd": "Add Certification",
+    "titleEdit": "Edit Certification"
   },
   "languages": {
     "title": "Languages",

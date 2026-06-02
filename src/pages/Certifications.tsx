@@ -16,6 +16,21 @@ const useStyles = makeStyles({
   container: {
     height: "100%",
     overflow: "auto",
+    "&::-webkit-scrollbar": {
+      width: "8px",
+      height: "8px",
+    },
+    "&::-webkit-scrollbar-track": {
+      background: tokens.colorNeutralStroke2,
+      borderRadius: "4px",
+    },
+    "&::-webkit-scrollbar-thumb": {
+      background: tokens.colorNeutralStroke1,
+      borderRadius: "4px",
+      "&:hover": {
+        background: tokens.colorBrandStroke1,
+      },
+    },
   },
   header: {
     height: "50px",
@@ -33,15 +48,14 @@ const useStyles = makeStyles({
     maxWidth: "800px",
     margin: "0 auto",
   },
+  link: {
+    color: tokens.colorBrandForeground1,
+    textDecoration: "none",
+    ":hover": {
+      textDecoration: "underline",
+    },
+  },
 });
-
-const fields: FieldConfig[] = [
-  { name: "name", label: "Название сертификата", required: true },
-  { name: "issuer", label: "Организация-эмитент", required: true },
-  { name: "date", label: "Дата получения", placeholder: "Март 2024" },
-  { name: "label", label: "Метка / ID" },
-  { name: "website", label: "Ссылка на сертификат", type: "url" },
-];
 
 export const Certifications: React.FC = () => {
   const styles = useStyles();
@@ -49,17 +63,38 @@ export const Certifications: React.FC = () => {
   const resume = useStore($resume);
   const certifications = resume.certifications || [];
 
-  const renderItem = (cert: Certification, index: number) => (
+  const fields: FieldConfig[] = [
+    { name: "name", label: t("certifications.name"), required: true },
+    { name: "issuer", label: t("certifications.issuer"), required: true },
+    {
+      name: "date",
+      label: t("certifications.date"),
+      placeholder: t("certifications.datePlaceholder"),
+    },
+    { name: "label", label: t("certifications.label") },
+    { name: "website", label: t("certifications.website"), type: "url" },
+  ];
+
+  const renderItem = (cert: Certification, _index: number) => (
     <div>
-      <Text size={200}>{cert.issuer}</Text>
       {cert.date && (
         <div>
-          <Text size={200}>Дата: {cert.date}</Text>
+          <Text size={200}>{cert.date}</Text>
         </div>
       )}
       {cert.label && (
         <div>
-          <Text size={200}>ID: {cert.label}</Text>
+          {!cert.website && <Text size={200}>{cert.label}</Text>}
+          {cert.website && (
+            <a
+              href={cert.website}
+              className={styles.link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {cert.label}
+            </a>
+          )}
         </div>
       )}
     </div>
@@ -82,8 +117,8 @@ export const Certifications: React.FC = () => {
           deleteItem={(index) => removeCertification(index)}
           getItemTitle={(item) => item.name}
           getItemSubtitle={(item) => item.issuer}
-          titleAdd="Добавить сертификат"
-          titleEdit="Редактировать сертификат"
+          titleAdd={t("certifications.titleAdd")}
+          titleEdit={t("certifications.titleEdit")}
         />
       </div>
     </div>

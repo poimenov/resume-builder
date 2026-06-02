@@ -22,6 +22,21 @@ const useStyles = makeStyles({
   container: {
     height: "100%",
     overflow: "auto",
+    "&::-webkit-scrollbar": {
+      width: "8px",
+      height: "8px",
+    },
+    "&::-webkit-scrollbar-track": {
+      background: tokens.colorNeutralStroke2,
+      borderRadius: "4px",
+    },
+    "&::-webkit-scrollbar-thumb": {
+      background: tokens.colorNeutralStroke1,
+      borderRadius: "4px",
+      "&:hover": {
+        background: tokens.colorBrandStroke1,
+      },
+    },
   },
   header: {
     height: "50px",
@@ -62,9 +77,8 @@ const useStyles = makeStyles({
   },
   link: {
     textDecoration: "none",
-    color: tokens.colorNeutralForeground1,
+    color: tokens.colorBrandForegroundLinkHover,
     ":hover": {
-      color: tokens.colorBrandForegroundLinkHover,
       textDecoration: "underline",
     },
   },

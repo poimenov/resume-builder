@@ -16,6 +16,21 @@ const useStyles = makeStyles({
   container: {
     height: "100%",
     overflow: "auto",
+    "&::-webkit-scrollbar": {
+      width: "8px",
+      height: "8px",
+    },
+    "&::-webkit-scrollbar-track": {
+      background: tokens.colorNeutralStroke2,
+      borderRadius: "4px",
+    },
+    "&::-webkit-scrollbar-thumb": {
+      background: tokens.colorNeutralStroke1,
+      borderRadius: "4px",
+      "&:hover": {
+        background: tokens.colorBrandStroke1,
+      },
+    },
   },
   header: {
     height: "50px",
@@ -33,38 +48,46 @@ const useStyles = makeStyles({
     maxWidth: "800px",
     margin: "0 auto",
   },
-  description: {
-    marginTop: tokens.spacingVerticalS,
+  link: {
+    color: tokens.colorBrandForeground1,
+    textDecoration: "none",
+    ":hover": {
+      textDecoration: "underline",
+    },
   },
 });
-
-const fields: FieldConfig[] = [
-  { name: "school", label: "Учебное заведение", required: true },
-  { name: "degree", label: "Степень / Специализация", required: true },
-  { name: "area", label: "Область изучения" },
-  { name: "grade", label: "Средний балл / Отличие" },
-  { name: "period", label: "Период обучения", placeholder: "2016-2020" },
-  { name: "location", label: "Локация" },
-  { name: "website", label: "Сайт", type: "url" },
-];
 
 export const Educations: React.FC = () => {
   const styles = useStyles();
   const { t } = useTranslation();
   const resume = useStore($resume);
 
-  const renderItem = (edu: Education, index: number) => (
+  const fields: FieldConfig[] = [
+    { name: "school", label: t("educations.school"), required: true },
+    { name: "degree", label: t("educations.degree"), required: true },
+    { name: "area", label: t("educations.area") },
+    { name: "grade", label: t("educations.grade") },
+    { name: "period", label: t("educations.period"), placeholder: "2016-2020" },
+    { name: "location", label: t("educations.location") },
+    { name: "website", label: t("educations.website"), type: "url" },
+  ];
+
+  const renderItem = (edu: Education, _index: number) => (
     <div>
-      <Text size={200}>{edu.period}</Text>
-      {edu.grade && (
-        <div>
-          <Text size={200}>Оценка: {edu.grade}</Text>
-        </div>
-      )}
       {edu.area && (
-        <div className={styles.description}>
+        <div>
           <Text size={300}>{edu.area}</Text>
         </div>
+      )}
+      {edu.website && (
+        <a
+          href={edu.website}
+          className={styles.link}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {edu.website}
+        </a>
       )}
     </div>
   );
@@ -86,8 +109,8 @@ export const Educations: React.FC = () => {
           deleteItem={(index) => removeEducation(index)}
           getItemTitle={(item) => `${item.degree} @ ${item.school}`}
           getItemSubtitle={(item) => item.period}
-          titleAdd="Добавить образование"
-          titleEdit="Редактировать образование"
+          titleAdd={t("educations.titleAdd")}
+          titleEdit={t("educations.titleEdit")}
         />
       </div>
     </div>

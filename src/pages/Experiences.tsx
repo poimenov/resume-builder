@@ -16,6 +16,21 @@ const useStyles = makeStyles({
   container: {
     height: "100%",
     overflow: "auto",
+    "&::-webkit-scrollbar": {
+      width: "8px",
+      height: "8px",
+    },
+    "&::-webkit-scrollbar-track": {
+      background: tokens.colorNeutralStroke2,
+      borderRadius: "4px",
+    },
+    "&::-webkit-scrollbar-thumb": {
+      background: tokens.colorNeutralStroke1,
+      borderRadius: "4px",
+      "&:hover": {
+        background: tokens.colorBrandStroke1,
+      },
+    },
   },
   header: {
     height: "50px",
@@ -90,7 +105,7 @@ export const Experiences: React.FC = () => {
     },
   ];
 
-  const renderItem = (exp: Experience, index: number) => (
+  const renderItem = (exp: Experience, _index: number) => (
     <div>
       <div className={styles.description} title={exp.description}>
         <Text size={300}>{exp.description}</Text>

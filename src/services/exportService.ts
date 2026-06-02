@@ -127,6 +127,7 @@ const normalizeResume = (importedResume: Partial<Resume>): Resume => {
     educations: importedResume.educations || [],
     skills: importedResume.skills || [],
     languages: importedResume.languages || [],
+    certifications: importedResume.certifications || [],
   };
 };
 
