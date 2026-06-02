@@ -47,7 +47,7 @@ const useStyles = makeStyles({
   },
   left: {
     padding: "0 10px",
-    overflow: "auto", // Добавляем прокрутку для левой панели (Outlet)
+    overflow: "auto",
     height: "100%",
     "&::-webkit-scrollbar": {
       width: "8px",
@@ -67,7 +67,7 @@ const useStyles = makeStyles({
   },
   right: {
     padding: "20px",
-    overflow: "auto", // Добавляем прокрутку для правой панели (Preview)
+    overflow: "auto",
     height: "100%",
     "&::-webkit-scrollbar": {
       width: "8px",

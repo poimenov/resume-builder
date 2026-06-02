@@ -1,7 +1,8 @@
 {
   "appName": "Resume Builder",
+  "preview": "Fill in your information to see a preview of your resume",
   "actions": {
-    "add ": "Add",
+    "add": "Add",
     "update": "Update",
     "delete": "Delete",
     "switchToLanguage": "Switch to Language",
@@ -14,17 +15,38 @@
     "title": "Basic Info",
     "choosePicture": "Choose Picture",
     "name": "Name",
+    "namePlaceholder": "Enter your name",
     "email": "Email",
+    "emailPlaceholder": "Enter your email",
     "phone": "Phone",
+    "phonePlaceholder": "Enter your phone number",
     "position": "Position",
-    "location": "Location"
+    "positionPlaceholder": "Enter your position",
+    "location": "Location",
+    "locationPlaceholder": "Enter your location"
   },
   "links": {
     "title": "Links",
-    "link": "Link"
+    "link": "Link",
+    "placeholder": "Enter a link",
+    "hint": "Add links to your profiles: GitHub, LinkedIn, portfolio, and more."
   },
   "summary": {
-    "title": "Summary"
+    "title": "Summary",
+    "placeholder": "Tell us about yourself, your experience, key skills and achievements...",
+    "statusBar": "Ctrl + B - bold, Ctrl + I - italic",
+    "bold": "Bold",
+    "italic": "Italic",
+    "underline": "Underline",
+    "strikethrough": "Strikethrough",
+    "heading1": "Heading 1",
+    "heading2": "Heading 2",
+    "divider": "Divider",
+    "bulletedList": "Bulleted List",
+    "numberedList": "Numbered List",
+    "quote": "Quote",
+    "undo": "Undo",
+    "redo": "Redo"
   },
   "experiences": {
     "title": "Experiences",
@@ -67,7 +89,7 @@
   },
   "menu": {
     "title": "Menu",
-    "file":{
+    "file": {
       "title": "File",
       "new": "New Resume",
       "import": "Import from JSON",
@@ -91,5 +113,12 @@
     "printWindowAlert": "Please allow pop-ups to print the resume",
     "importSuccessAlert": "Resume imported successfully!",
     "jsonFileAlert": "Please select a JSON file"
+  },
+  "photoUpload": {
+    "upload": "Upload Photo",
+    "uploadHint": "Recommended size: up to 2MB",
+    "remove": "Remove",
+    "selectPhotoAlert": "Please select an image file",
+    "sizePhotoAlert": "The image must not exceed 2MB"
   }
 }

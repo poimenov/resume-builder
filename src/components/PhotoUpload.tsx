@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { Button, makeStyles, tokens, Text } from "@fluentui/react-components";
 import { Image20Regular } from "@fluentui/react-icons";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles({
   container: {
@@ -49,6 +50,7 @@ export const PhotoUpload: React.FC<PhotoUploadProps> = ({
 }) => {
   const styles = useStyles();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { t } = useTranslation();
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -56,13 +58,13 @@ export const PhotoUpload: React.FC<PhotoUploadProps> = ({
 
     // Проверяем тип файла
     if (!file.type.startsWith("image/")) {
-      alert("Пожалуйста, выберите файл изображения");
+      alert(t("photoUpload.selectPhotoAlert"));
       return;
     }
 
     // Проверяем размер (максимум 2MB)
     if (file.size > 2 * 1024 * 1024) {
-      alert("Изображение не должно превышать 2MB");
+      alert(t("photoUpload.sizePhotoAlert"));
       return;
     }
 
@@ -98,11 +100,11 @@ export const PhotoUpload: React.FC<PhotoUploadProps> = ({
       </div>
       <div className={styles.buttonContainer}>
         <Button appearance="primary" onClick={handleClick}>
-          Загрузить фото
+          {t("photoUpload.upload")}
         </Button>
         {currentPhoto && (
           <Button appearance="secondary" onClick={handleRemovePhoto}>
-            Удалить
+            {t("photoUpload.remove")}
           </Button>
         )}
       </div>
@@ -114,7 +116,7 @@ export const PhotoUpload: React.FC<PhotoUploadProps> = ({
         style={{ display: "none" }}
       />
       <Text size={200} align="center">
-        Рекомендуемый размер: до 2MB
+        {t("photoUpload.uploadHint")}
       </Text>
     </div>
   );

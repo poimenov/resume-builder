@@ -3,6 +3,7 @@ import { makeStyles, tokens, Card, Text } from "@fluentui/react-components";
 import { useStore } from "@nanostores/react";
 import { $resume } from "../stores/resumeStore";
 import { getTemplateById, TemplatePreview } from "../templates";
+import { useTranslation } from "react-i18next";
 
 interface PreviewProps {
   currentTemplate: string;
@@ -27,6 +28,7 @@ export const Preview: React.FC<PreviewProps> = ({ currentTemplate }) => {
   const styles = useStyles();
   const resume = useStore($resume);
   const template = getTemplateById(currentTemplate);
+  const { t } = useTranslation();
 
   const hasData = resume.basicInfo.name || resume.experiences.length > 0;
 
@@ -34,9 +36,7 @@ export const Preview: React.FC<PreviewProps> = ({ currentTemplate }) => {
     return (
       <div className={styles.container}>
         <Card className={styles.emptyState}>
-          <Text size={400}>
-            Заполните информацию о себе, чтобы увидеть предпросмотр резюме
-          </Text>
+          <Text size={400}>{t("preview")}</Text>
         </Card>
       </div>
     );

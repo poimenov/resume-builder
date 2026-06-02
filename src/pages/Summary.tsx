@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { makeStyles, tokens, Title1 } from "@fluentui/react-components";
 import { DocumentText20Regular } from "@fluentui/react-icons";
 import { useTranslation } from "react-i18next";
@@ -17,9 +18,6 @@ import {
   Heading2,
   List,
   ListOrdered,
-  AlignLeft,
-  AlignCenter,
-  AlignRight,
   Undo,
   Redo,
   Minus,
@@ -29,7 +27,6 @@ import {
 const useStyles = makeStyles({
   container: {
     height: "100%",
-    overflow: "auto",
   },
   header: {
     height: "50px",
@@ -41,7 +38,6 @@ const useStyles = makeStyles({
     top: 0,
     backgroundColor: tokens.colorNeutralBackground2,
     zIndex: 10,
-    borderBottom: `1px solid ${tokens.colorNeutralStroke1}`,
   },
   content: {
     padding: tokens.spacingHorizontalL,
@@ -112,11 +108,30 @@ const useStyles = makeStyles({
   editor: {
     "& .ProseMirror": {
       padding: "20px 24px",
-      minHeight: "400px",
+      height: "calc(100vh - 340px)",
+      overflowY: "auto",
       outline: "none",
       fontSize: "14px",
       lineHeight: 1.7,
       color: tokens.colorNeutralForeground1,
+
+      "&::-webkit-scrollbar": {
+        width: "8px",
+        height: "8px",
+      },
+      "&::-webkit-scrollbar-track": {
+        background: tokens.colorNeutralStroke2,
+        borderRadius: "4px",
+        cursor: "default",
+      },
+      "&::-webkit-scrollbar-thumb": {
+        background: tokens.colorNeutralStroke1,
+        borderRadius: "4px",
+        "&:hover": {
+          background: tokens.colorBrandStroke1,
+          cursor: "default",
+        },
+      },
 
       "& p": {
         margin: "0 0 16px 0",
@@ -227,6 +242,7 @@ const useStyles = makeStyles({
 });
 
 const MenuBar = ({ editor }: { editor: any }) => {
+  const { t } = useTranslation();
   const styles = useStyles();
 
   if (!editor) {
@@ -241,25 +257,25 @@ const MenuBar = ({ editor }: { editor: any }) => {
           icon: <Bold />,
           action: () => editor.chain().focus().toggleBold().run(),
           isActive: editor.isActive("bold"),
-          title: "Жирный",
+          title: t("summary.bold"),
         },
         {
           icon: <Italic />,
           action: () => editor.chain().focus().toggleItalic().run(),
           isActive: editor.isActive("italic"),
-          title: "Курсив",
+          title: t("summary.italic"),
         },
         {
           icon: <UnderlineIcon />,
           action: () => editor.chain().focus().toggleUnderline().run(),
           isActive: editor.isActive("underline"),
-          title: "Подчеркнутый",
+          title: t("summary.underline"),
         },
         {
           icon: <Strikethrough />,
           action: () => editor.chain().focus().toggleStrike().run(),
           isActive: editor.isActive("strike"),
-          title: "Зачеркнутый",
+          title: t("summary.strikethrough"),
         },
       ],
     },
@@ -271,20 +287,20 @@ const MenuBar = ({ editor }: { editor: any }) => {
           action: () =>
             editor.chain().focus().toggleHeading({ level: 1 }).run(),
           isActive: editor.isActive("heading", { level: 1 }),
-          title: "Заголовок 1",
+          title: t("summary.heading1"),
         },
         {
           icon: <Heading2 />,
           action: () =>
             editor.chain().focus().toggleHeading({ level: 2 }).run(),
           isActive: editor.isActive("heading", { level: 2 }),
-          title: "Заголовок 2",
+          title: t("summary.heading2"),
         },
         {
           icon: <Minus />,
           action: () => editor.chain().focus().setHorizontalRule().run(),
           isActive: false,
-          title: "Разделитель",
+          title: t("summary.divider"),
         },
       ],
     },
@@ -295,19 +311,19 @@ const MenuBar = ({ editor }: { editor: any }) => {
           icon: <List />,
           action: () => editor.chain().focus().toggleBulletList().run(),
           isActive: editor.isActive("bulletList"),
-          title: "Маркированный список",
+          title: t("summary.bulletList"),
         },
         {
           icon: <ListOrdered />,
           action: () => editor.chain().focus().toggleOrderedList().run(),
           isActive: editor.isActive("orderedList"),
-          title: "Нумерованный список",
+          title: t("summary.numberedList"),
         },
         {
           icon: <Quote />,
           action: () => editor.chain().focus().toggleBlockquote().run(),
           isActive: editor.isActive("blockquote"),
-          title: "Цитата",
+          title: t("summary.quote"),
         },
       ],
     },
@@ -318,13 +334,13 @@ const MenuBar = ({ editor }: { editor: any }) => {
           icon: <Undo />,
           action: () => editor.chain().focus().undo().run(),
           isActive: false,
-          title: "Отменить",
+          title: t("summary.undo"),
         },
         {
           icon: <Redo />,
           action: () => editor.chain().focus().redo().run(),
           isActive: false,
-          title: "Повторить",
+          title: t("summary.redo"),
         },
       ],
     },
@@ -365,8 +381,7 @@ export const Summary: React.FC = () => {
       }),
       Underline,
       Placeholder.configure({
-        placeholder:
-          "📝 Расскажите о себе, своем опыте, ключевых навыках и достижениях...",
+        placeholder: t("summary.placeholder"),
       }),
     ],
     content: resume.summary,
@@ -376,26 +391,14 @@ export const Summary: React.FC = () => {
     editorProps: {
       attributes: {
         class: "ProseMirror",
-        "data-placeholder":
-          "📝 Расскажите о себе, своем опыте, ключевых навыках и достижениях...",
+        "data-placeholder": t("summary.placeholder"),
       },
     },
   });
 
-  // Подсчет слов
-  const getWordCount = () => {
-    if (!editor) return 0;
-    const text = editor.getText();
-    return text
-      .trim()
-      .split(/\s+/)
-      .filter((word) => word.length > 0).length;
-  };
-
-  const getCharCount = () => {
-    if (!editor) return 0;
-    return editor.getText().length;
-  };
+  useEffect(() => {
+    editor.commands.setContent(resume.summary);
+  }, [editor, resume.summary]);
 
   return (
     <div className={styles.container}>
@@ -411,18 +414,8 @@ export const Summary: React.FC = () => {
             <EditorContent editor={editor} />
           </div>
           <div className={styles.statusBar}>
-            <div className={styles.wordCount}>
-              <span>📊 {getWordCount()} слов</span>
-              <span>✏️ {getCharCount()} символов</span>
-            </div>
-            <div>
-              <span>💡 Ctrl + B - жирный, Ctrl + I - курсив</span>
-            </div>
+            <span>{t("summary.statusBar")}</span>
           </div>
-        </div>
-        <div className={styles.hint}>
-          🎨 Используйте панель инструментов для форматирования текста.
-          Создавайте структурированные описания с заголовками и списками.
         </div>
       </div>
     </div>

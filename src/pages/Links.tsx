@@ -6,6 +6,7 @@ import {
   Input,
   Button,
   Card,
+  CardPreview,
   ToolbarButton,
 } from "@fluentui/react-components";
 import {
@@ -38,15 +39,18 @@ const useStyles = makeStyles({
     maxWidth: "600px",
     margin: "0 auto",
   },
+  card: {
+    marginBottom: tokens.spacingVerticalM,
+  },
   linkItem: {
     display: "flex",
     gap: tokens.spacingHorizontalS,
     alignItems: "center",
-    marginBottom: tokens.spacingVerticalM,
     padding: tokens.spacingHorizontalM,
   },
   linkInput: {
     flex: 1,
+    overflow: "hidden",
   },
   addButton: {
     marginTop: tokens.spacingVerticalM,
@@ -55,6 +59,14 @@ const useStyles = makeStyles({
     marginTop: tokens.spacingVerticalM,
     fontSize: tokens.fontSizeBase200,
     color: tokens.colorNeutralForeground3,
+  },
+  link: {
+    textDecoration: "none",
+    color: tokens.colorNeutralForeground1,
+    ":hover": {
+      color: tokens.colorBrandForegroundLinkHover,
+      textDecoration: "underline",
+    },
   },
 });
 
@@ -91,40 +103,46 @@ export const Links: React.FC = () => {
 
       <div className={styles.content}>
         {resume.links.map((link, index) => (
-          <Card key={index} className={styles.linkItem}>
-            <div className={styles.linkInput}>
-              <a href={link} target="_blank" rel="noopener noreferrer">
-                {link}
-              </a>
-            </div>
-            <ToolbarButton
-              icon={<Delete20Regular />}
-              onClick={() => handleDeleteLink(index)}
-              aria-label="Удалить"
-            />
+          <Card key={index} className={styles.card}>
+            <CardPreview className={styles.linkItem}>
+              <div className={styles.linkInput}>
+                <a
+                  href={link}
+                  className={styles.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {link}
+                </a>
+              </div>
+              <ToolbarButton
+                icon={<Delete20Regular />}
+                onClick={() => handleDeleteLink(index)}
+                aria-label={t("actions.delete")}
+                title={t("actions.delete")}
+              />
+            </CardPreview>
           </Card>
         ))}
 
         <div className={styles.linkItem}>
           <Input
             className={styles.linkInput}
-            placeholder="https://github.com/username"
+            placeholder={t("links.placeholder")}
             value={newLink}
             onChange={(e) => setNewLink(e.target.value)}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyPress}
           />
           <Button
             appearance="primary"
             icon={<Add20Regular />}
             onClick={handleAddLink}
           >
-            Добавить
+            {t("actions.add")}
           </Button>
         </div>
 
-        <div className={styles.hint}>
-          Добавьте ссылки на ваши профили: GitHub, LinkedIn, портфолио и т.д.
-        </div>
+        <div className={styles.hint}>{t("links.hint")}</div>
       </div>
     </div>
   );

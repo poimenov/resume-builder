@@ -1,10 +1,4 @@
-import {
-  makeStyles,
-  tokens,
-  Title1,
-  Input,
-  Textarea,
-} from "@fluentui/react-components";
+import { makeStyles, tokens, Title1, Input } from "@fluentui/react-components";
 import { Person32Regular } from "@fluentui/react-icons";
 import { useTranslation } from "react-i18next";
 import { useStore } from "@nanostores/react";
@@ -44,10 +38,6 @@ const useStyles = makeStyles({
     fontWeight: 500,
     fontSize: tokens.fontSizeBase200,
   },
-  hint: {
-    fontSize: tokens.fontSizeBase100,
-    color: tokens.colorNeutralForeground3,
-  },
 });
 
 export const BasicInfo: React.FC = () => {
@@ -84,7 +74,6 @@ export const BasicInfo: React.FC = () => {
             onChange={(e) => handleFieldChange("name", e.target.value)}
             placeholder={t("basicInfo.namePlaceholder")}
           />
-          <div className={styles.hint}>Иванов Иван Иванович</div>
         </div>
 
         <div className={styles.field}>
@@ -94,9 +83,6 @@ export const BasicInfo: React.FC = () => {
             onChange={(e) => handleFieldChange("position", e.target.value)}
             placeholder={t("basicInfo.positionPlaceholder")}
           />
-          <div className={styles.hint}>
-            Frontend Developer, Team Lead и т.д.
-          </div>
         </div>
 
         <div className={styles.field}>
@@ -105,7 +91,7 @@ export const BasicInfo: React.FC = () => {
             type="email"
             value={basicInfo.email}
             onChange={(e) => handleFieldChange("email", e.target.value)}
-            placeholder="email@example.com"
+            placeholder={t("basicInfo.emailPlaceholder")}
           />
         </div>
 
@@ -114,7 +100,7 @@ export const BasicInfo: React.FC = () => {
           <Input
             value={basicInfo.phone}
             onChange={(e) => handleFieldChange("phone", e.target.value)}
-            placeholder="+7 (999) 123-45-67"
+            placeholder={t("basicInfo.phonePlaceholder")}
           />
         </div>
 
@@ -123,7 +109,7 @@ export const BasicInfo: React.FC = () => {
           <Input
             value={basicInfo.location}
             onChange={(e) => handleFieldChange("location", e.target.value)}
-            placeholder="Москва, Россия"
+            placeholder={t("basicInfo.locationPlaceholder")}
           />
         </div>
       </div>
