@@ -3,7 +3,6 @@ import {
   Button,
   Card,
   Dialog,
-  DialogTrigger,
   DialogSurface,
   DialogTitle,
   DialogBody,
@@ -20,6 +19,7 @@ import {
   Edit20Regular,
   Delete20Regular,
 } from "@fluentui/react-icons";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles({
   container: {
@@ -63,6 +63,31 @@ const useStyles = makeStyles({
     fontWeight: 500,
     fontSize: tokens.fontSizeBase200,
   },
+  area: {
+    "& textarea": {
+      colorScheme: "dark",
+      lineHeight: "20px",
+      height: "90px",
+    },
+
+    "& textarea::-webkit-scrollbar": {
+      width: "8px",
+      height: "8px",
+    },
+    "& textarea::-webkit-scrollbar-track": {
+      background: tokens.colorNeutralStroke2,
+      borderRadius: "4px",
+      cursor: "default",
+    },
+    "& textarea::-webkit-scrollbar-thumb": {
+      background: tokens.colorNeutralStroke1,
+      borderRadius: "4px",
+      "&:hover": {
+        background: tokens.colorBrandStroke1,
+        cursor: "default",
+      },
+    },
+  },
 });
 
 export interface FieldConfig {
@@ -102,6 +127,7 @@ export function EditableList<T extends Record<string, any>>({
   const [isOpen, setIsOpen] = useState(false);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [formData, setFormData] = useState<Partial<T>>({});
+  const { t } = useTranslation();
 
   const handleOpenAdd = () => {
     setEditingIndex(null);
@@ -155,12 +181,12 @@ export function EditableList<T extends Record<string, any>>({
               <ToolbarButton
                 icon={<Edit20Regular />}
                 onClick={() => handleOpenEdit(index)}
-                aria-label="Редактировать"
+                aria-label={t("actions.edit")}
               />
               <ToolbarButton
                 icon={<Delete20Regular />}
                 onClick={() => deleteItem(index)}
-                aria-label="Удалить"
+                aria-label={t("actions.delete")}
               />
             </div>
           </div>
@@ -181,11 +207,12 @@ export function EditableList<T extends Record<string, any>>({
                     <label className={styles.label}>{field.label}</label>
                     {field.type === "textarea" ? (
                       <Textarea
+                        className={styles.area}
                         value={formData[field.name] || ""}
                         onChange={(e) =>
                           handleFieldChange(field.name, e.target.value)
                         }
-                        rows={4}
+                        // rows={4}
                         placeholder={field.placeholder}
                       />
                     ) : (
@@ -204,10 +231,10 @@ export function EditableList<T extends Record<string, any>>({
             </DialogContent>
             <DialogActions>
               <Button appearance="secondary" onClick={() => setIsOpen(false)}>
-                Отмена
+                {t("actions.cancel")}
               </Button>
               <Button appearance="primary" onClick={handleSave}>
-                Сохранить
+                {t("actions.save")}
               </Button>
             </DialogActions>
           </DialogBody>

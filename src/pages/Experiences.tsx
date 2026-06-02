@@ -34,41 +34,74 @@ const useStyles = makeStyles({
     margin: "0 auto",
   },
   description: {
-    marginTop: tokens.spacingVerticalS,
-    whiteSpace: "pre-wrap",
+    display: "-webkit-box",
+    WebkitLineClamp: 3,
+    WebkitBoxOrient: "vertical",
+    overflow: "hidden",
+  },
+  link: {
+    color: tokens.colorBrandForeground1,
+    textDecoration: "none",
+    ":hover": {
+      textDecoration: "underline",
+    },
   },
 });
-
-const fields: FieldConfig[] = [
-  { name: "company", label: "Компания", required: true },
-  { name: "position", label: "Должность", required: true },
-  {
-    name: "period",
-    label: "Период работы",
-    placeholder: "2020-настоящее время",
-  },
-  { name: "location", label: "Локация", placeholder: "Москва, Россия" },
-  { name: "website", label: "Сайт компании", type: "url" },
-  {
-    name: "description",
-    label: "Описание обязанностей и достижений",
-    type: "textarea",
-  },
-];
 
 export const Experiences: React.FC = () => {
   const styles = useStyles();
   const { t } = useTranslation();
   const resume = useStore($resume);
 
+  const fields: FieldConfig[] = [
+    {
+      name: "company",
+      label: t("experiences.company"),
+      placeholder: t("experiences.companyPlaceholder"),
+      required: true,
+    },
+    {
+      name: "position",
+      label: t("experiences.position"),
+      placeholder: t("experiences.positionPlaceholder"),
+      required: true,
+    },
+    {
+      name: "period",
+      label: t("experiences.period"),
+      placeholder: t("experiences.periodPlaceholder"),
+    },
+    {
+      name: "location",
+      label: t("experiences.location"),
+      placeholder: t("experiences.locationPlaceholder"),
+    },
+    {
+      name: "website",
+      label: t("experiences.website"),
+      type: "url",
+      placeholder: t("experiences.websitePlaceholder"),
+    },
+    {
+      name: "description",
+      label: t("experiences.description"),
+      placeholder: t("experiences.descriptionPlaceholder"),
+      type: "textarea",
+    },
+  ];
+
   const renderItem = (exp: Experience, index: number) => (
     <div>
-      <Text size={200}>{exp.period}</Text>
-      <div className={styles.description}>
+      <div className={styles.description} title={exp.description}>
         <Text size={300}>{exp.description}</Text>
       </div>
       {exp.website && (
-        <a href={exp.website} target="_blank" rel="noopener noreferrer">
+        <a
+          href={exp.website}
+          className={styles.link}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {exp.website}
         </a>
       )}
@@ -92,8 +125,8 @@ export const Experiences: React.FC = () => {
           deleteItem={(index) => removeExperience(index)}
           getItemTitle={(item) => `${item.position} @ ${item.company}`}
           getItemSubtitle={(item) => item.period}
-          titleAdd="Добавить опыт работы"
-          titleEdit="Редактировать опыт"
+          titleAdd={t("experiences.titleAdd")}
+          titleEdit={t("experiences.titleEdit")}
         />
       </div>
     </div>
