@@ -99,9 +99,17 @@
   },
   "languages": {
     "title": "Languages",
-    "name": "Language Name",
+    "name": "Language Name (e.g. English)",
+    "hint": "Add languages you are fluent in",
     "fluency": "Fluency",
-    "level": "Level"
+    "level": "Level",
+    "fluencyLevel": {
+      "native": "Native",
+      "fluent": "Fluent",
+      "advanced": "Advanced",
+      "intermediate": "Intermediate",
+      "beginner": "Beginner"
+    }
   },
   "menu": {
     "title": "Menu",

@@ -8,6 +8,7 @@ import {
   Card,
   Select,
   ToolbarButton,
+  CardPreview,
 } from "@fluentui/react-components";
 import {
   Earth20Regular,
@@ -16,18 +17,27 @@ import {
 } from "@fluentui/react-icons";
 import { useTranslation } from "react-i18next";
 import { useStore } from "@nanostores/react";
-import {
-  $resume,
-  addLanguage,
-  updateLanguage,
-  removeLanguage,
-} from "../stores/resumeStore";
-import type { Language } from "../models/Resume";
+import { $resume, addLanguage, removeLanguage } from "../stores/resumeStore";
 
 const useStyles = makeStyles({
   container: {
     height: "100%",
     overflow: "auto",
+    "&::-webkit-scrollbar": {
+      width: "8px",
+      height: "8px",
+    },
+    "&::-webkit-scrollbar-track": {
+      background: tokens.colorNeutralStroke2,
+      borderRadius: "4px",
+    },
+    "&::-webkit-scrollbar-thumb": {
+      background: tokens.colorNeutralStroke1,
+      borderRadius: "4px",
+      "&:hover": {
+        background: tokens.colorBrandStroke1,
+      },
+    },
   },
   header: {
     height: "50px",
@@ -45,15 +55,17 @@ const useStyles = makeStyles({
     maxWidth: "600px",
     margin: "0 auto",
   },
+  card: {
+    marginBottom: tokens.spacingVerticalM,
+  },
   languageItem: {
     display: "flex",
-    gap: tokens.spacingHorizontalM,
+    gap: tokens.spacingHorizontalS,
     alignItems: "center",
-    marginBottom: tokens.spacingVerticalM,
     padding: tokens.spacingHorizontalM,
   },
   languageName: {
-    flex: 2,
+    flex: 1,
   },
   languageLevel: {
     flex: 1,
@@ -65,12 +77,12 @@ const useStyles = makeStyles({
   },
 });
 
-const fluencyLevels = [
-  { value: "native", label: "Родной" },
-  { value: "fluent", label: "Свободно" },
-  { value: "advanced", label: "Продвинутый" },
-  { value: "intermediate", label: "Средний" },
-  { value: "beginner", label: "Начальный" },
+const levels = [
+  { value: "native" },
+  { value: "fluent" },
+  { value: "advanced" },
+  { value: "intermediate" },
+  { value: "beginner" },
 ];
 
 export const Languages: React.FC = () => {
@@ -79,7 +91,10 @@ export const Languages: React.FC = () => {
   const resume = useStore($resume);
   const [newLanguage, setNewLanguage] = useState("");
   const [newFluency, setNewFluency] = useState("intermediate");
-  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const fluencyLevels = levels.map((l) => ({
+    value: l.value,
+    label: t(`languages.fluencyLevel.${l.value}`),
+  }));
 
   const handleAddLanguage = () => {
     if (newLanguage.trim()) {
@@ -113,31 +128,35 @@ export const Languages: React.FC = () => {
 
       <div className={styles.content}>
         {resume.languages.map((lang, index) => (
-          <Card key={lang.id || index} className={styles.languageItem}>
-            <div className={styles.languageName}>
-              <div style={{ fontWeight: 500 }}>{lang.name}</div>
-            </div>
-            <div className={styles.languageLevel}>
-              <div>{lang.fluency}</div>
-            </div>
-            <ToolbarButton
-              icon={<Delete20Regular />}
-              onClick={() => handleDeleteLanguage(index)}
-              aria-label="Удалить"
-            />
+          <Card key={lang.id || index} className={styles.card}>
+            <CardPreview className={styles.languageItem}>
+              <div className={styles.languageName}>
+                <div style={{ fontWeight: 500 }}>{lang.name}</div>
+              </div>
+              <div className={styles.languageLevel}>
+                <div>{t(`languages.fluencyLevel.${lang.fluency}`)}</div>
+              </div>
+              <ToolbarButton
+                icon={<Delete20Regular />}
+                onClick={() => handleDeleteLanguage(index)}
+                aria-label={t("actions.delete")}
+              />
+            </CardPreview>
           </Card>
         ))}
 
         <div className={styles.addSection}>
           <Input
             className={styles.languageName}
-            placeholder="Язык (например: Английский)"
+            style={{ width: "100px" }}
+            placeholder={t("languages.name")}
             value={newLanguage}
             onChange={(e) => setNewLanguage(e.target.value)}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyPress}
           />
           <Select
             className={styles.languageLevel}
+            style={{ width: "100px" }}
             value={newFluency}
             onChange={(e) => setNewFluency(e.target.value)}
           >
@@ -152,7 +171,7 @@ export const Languages: React.FC = () => {
             icon={<Add20Regular />}
             onClick={handleAddLanguage}
           >
-            Добавить
+            {t("actions.add")}
           </Button>
         </div>
 
@@ -164,7 +183,7 @@ export const Languages: React.FC = () => {
               marginTop: tokens.spacingVerticalXL,
             }}
           >
-            Добавьте языки, которыми вы владеете
+            {t("languages.hint")}
           </div>
         )}
       </div>
