@@ -1,25 +1,36 @@
-import React, { useState } from "react";
-import {
-  makeStyles,
-  tokens,
-  Title1,
-  Input,
-  Button,
-  Text,
-} from "@fluentui/react-components";
-import {
-  Sparkle20Regular,
-  Add20Regular,
-  Dismiss20Regular,
-} from "@fluentui/react-icons";
+import React from "react";
+import { makeStyles, tokens, Title1, Text } from "@fluentui/react-components";
+import { Sparkle20Regular } from "@fluentui/react-icons";
 import { useTranslation } from "react-i18next";
 import { useStore } from "@nanostores/react";
-import { $resume, addSkill, removeSkill } from "../stores/resumeStore";
+import {
+  $resume,
+  addSkill,
+  updateSkill,
+  removeSkill,
+} from "../stores/resumeStore";
+import { EditableList, FieldConfig } from "../components/EditableList";
+import type { Skill } from "../models/Resume";
 
 const useStyles = makeStyles({
   container: {
     height: "100%",
     overflow: "auto",
+    "&::-webkit-scrollbar": {
+      width: "8px",
+      height: "8px",
+    },
+    "&::-webkit-scrollbar-track": {
+      background: tokens.colorNeutralStroke2,
+      borderRadius: "4px",
+    },
+    "&::-webkit-scrollbar-thumb": {
+      background: tokens.colorNeutralStroke1,
+      borderRadius: "4px",
+      "&:hover": {
+        background: tokens.colorBrandStroke1,
+      },
+    },
   },
   header: {
     height: "50px",
@@ -31,7 +42,6 @@ const useStyles = makeStyles({
     top: 0,
     backgroundColor: tokens.colorNeutralBackground2,
     zIndex: 10,
-    borderBottom: `1px solid ${tokens.colorNeutralStroke1}`,
   },
   content: {
     padding: tokens.spacingHorizontalL,
@@ -39,59 +49,25 @@ const useStyles = makeStyles({
     margin: "0 auto",
     paddingTop: tokens.spacingVerticalXL,
   },
-  addSection: {
-    display: "flex",
-    gap: tokens.spacingHorizontalS,
-    marginBottom: tokens.spacingVerticalXL,
-  },
-  skillsGrid: {
+  keywordsContainer: {
     display: "flex",
     flexWrap: "wrap",
-    gap: tokens.spacingHorizontalM,
-  },
-  customTag: {
-    display: "inline-flex",
-    alignItems: "center",
     gap: tokens.spacingHorizontalXS,
-    padding: `${tokens.spacingVerticalXS} ${tokens.spacingHorizontalM}`,
-    backgroundColor: tokens.colorBrandBackground2,
-    color: tokens.colorBrandForeground1,
-    borderRadius: tokens.borderRadiusLarge,
-    fontSize: tokens.fontSizeBase200,
-    fontWeight: 500,
-    transition: "all 0.2s ease",
-    "&:hover": {
-      backgroundColor: tokens.colorBrandBackground2,
-      transform: "translateY(-2px)",
-      boxShadow: tokens.shadow2,
-    },
+    marginTop: tokens.spacingVerticalS,
   },
-  deleteIcon: {
-    cursor: "pointer",
+  keywordTag: {
     display: "inline-flex",
     alignItems: "center",
-    justifyContent: "center",
-    padding: "2px",
-    borderRadius: "50%",
-    transition: "all 0.2s ease",
-    "&:hover": {
-      backgroundColor: "rgba(0,0,0,0.1)",
-      transform: "scale(1.1)",
-    },
+    padding: `${tokens.spacingVerticalXS} ${tokens.spacingHorizontalS}`,
+    backgroundColor: tokens.colorNeutralBackground3,
+    borderRadius: tokens.borderRadiusSmall,
+    fontSize: tokens.fontSizeBase100,
+    color: tokens.colorNeutralForeground2,
   },
-  emptyState: {
-    textAlign: "center",
+  emptyKeywords: {
+    marginTop: tokens.spacingVerticalS,
+    fontSize: tokens.fontSizeBase100,
     color: tokens.colorNeutralForeground3,
-    marginTop: tokens.spacingVerticalXL,
-    padding: tokens.spacingVerticalXXL,
-    backgroundColor: tokens.colorNeutralBackground1,
-    borderRadius: tokens.borderRadiusMedium,
-  },
-  hint: {
-    marginTop: tokens.spacingVerticalM,
-    fontSize: tokens.fontSizeBase200,
-    color: tokens.colorNeutralForeground3,
-    textAlign: "center",
   },
 });
 
@@ -99,23 +75,39 @@ export const Skills: React.FC = () => {
   const styles = useStyles();
   const { t } = useTranslation();
   const resume = useStore($resume);
-  const [newSkill, setNewSkill] = useState("");
 
-  const handleAddSkill = () => {
-    if (newSkill.trim()) {
-      addSkill({ id: Date.now().toString(), name: newSkill.trim() });
-      setNewSkill("");
+  const fields: FieldConfig[] = [
+    {
+      name: "name",
+      label: t("skills.skillsGroup"),
+      required: true,
+      placeholder: t("skills.skillsGroupPlaceholder"),
+    },
+    {
+      name: "keywords",
+      label: t("skills.keywords"),
+      type: "keywords",
+      placeholder: t("skills.keywordsPlaceholder"),
+    },
+  ];
+
+  const renderItem = (skill: Skill, _index: number) => {
+    if (skill.keywords && skill.keywords.length > 0) {
+      return (
+        <div className={styles.keywordsContainer}>
+          {skill.keywords.map((keyword, kidx) => (
+            <span key={kidx} className={styles.keywordTag}>
+              {keyword}
+            </span>
+          ))}
+        </div>
+      );
     }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      handleAddSkill();
-    }
-  };
-
-  const handleDeleteSkill = (index: number) => {
-    removeSkill(index);
+    return (
+      <div className={styles.emptyKeywords}>
+        <Text size={100}>{t("Skills.emptyKeywordsHint")}</Text>
+      </div>
+    );
   };
 
   return (
@@ -126,55 +118,22 @@ export const Skills: React.FC = () => {
       </div>
 
       <div className={styles.content}>
-        <div className={styles.addSection}>
-          <Input
-            placeholder="Название навыка (например: React, TypeScript, Python)"
-            value={newSkill}
-            onChange={(e) => setNewSkill(e.target.value)}
-            onKeyPress={handleKeyPress}
-            style={{ flex: 1 }}
-            size="large"
-          />
-          <Button
-            appearance="primary"
-            icon={<Add20Regular />}
-            onClick={handleAddSkill}
-            disabled={!newSkill.trim()}
-          >
-            Добавить
-          </Button>
-        </div>
-
-        <div className={styles.skillsGrid}>
-          {resume.skills.map((skill, index) => (
-            <div key={skill.id || index} className={styles.customTag}>
-              <Text size={200}>{skill.name}</Text>
-              <Dismiss20Regular
-                className={styles.deleteIcon}
-                onClick={() => handleDeleteSkill(index)}
-                style={{ fontSize: "12px", cursor: "pointer" }}
-              />
-            </div>
-          ))}
-        </div>
-
-        {resume.skills.length === 0 && (
-          <div className={styles.emptyState}>
-            <Sparkle20Regular
-              style={{ fontSize: "48px", marginBottom: "16px", opacity: 0.5 }}
-            />
-            <div>У вас пока нет добавленных навыков</div>
-            <div className={styles.hint}>
-              Начните вводить навыки в поле выше и нажмите "Добавить"
-            </div>
-          </div>
-        )}
-
-        {resume.skills.length > 0 && (
-          <div className={styles.hint}>
-            💡 Нажмите на крестик у навыка, чтобы удалить его
-          </div>
-        )}
+        <EditableList
+          items={resume.skills}
+          fields={fields}
+          renderItem={renderItem}
+          addItem={(item) =>
+            addSkill({ ...item, id: Date.now().toString() } as Skill)
+          }
+          updateItem={(index, item) => updateSkill(index, item)}
+          deleteItem={(index) => removeSkill(index)}
+          getItemTitle={(item) => item.name}
+          getItemSubtitle={(item) =>
+            `${item.keywords?.length || 0} ${t("skills.ofKeywords")}`
+          }
+          titleAdd={t("skills.titleAdd")}
+          titleEdit={t("skills.titleEdit")}
+        />
       </div>
     </div>
   );

@@ -134,6 +134,23 @@ const useStyles = makeStyles({
     fontSize: "13px",
     fontWeight: "500",
   },
+  skillGroup: {
+    marginBottom: tokens.spacingVerticalS,
+  },
+  keywordsList: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: tokens.spacingHorizontalXS,
+    marginTop: tokens.spacingVerticalXS,
+    marginLeft: tokens.spacingHorizontalM,
+  },
+  keywordTag: {
+    backgroundColor: tokens.colorNeutralBackground3,
+    color: tokens.colorNeutralForeground2,
+    padding: `2px ${tokens.spacingHorizontalS}`,
+    borderRadius: tokens.borderRadiusSmall,
+    fontSize: "11px",
+  },
   languageItem: {
     display: "flex",
     justifyContent: "space-between",
@@ -218,9 +235,18 @@ export const ModernTemplate: React.FC<{ resume: Resume }> = ({ resume }) => {
           <div className={styles.sectionTitle}>Навыки</div>
           <div className={styles.skillsList}>
             {skills.map((skill, idx) => (
-              <span key={idx} className={styles.skillTag}>
-                {skill.name}
-              </span>
+              <div key={idx} className={styles.skillGroup}>
+                <span className={styles.skillTag}>{skill.name}</span>
+                {skill.keywords && skill.keywords.length > 0 && (
+                  <div className={styles.keywordsList}>
+                    {skill.keywords.map((keyword, kidx) => (
+                      <span key={kidx} className={styles.keywordTag}>
+                        {keyword}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
           </div>
         </div>

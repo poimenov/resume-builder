@@ -83,8 +83,14 @@
   "skills": {
     "title": "Skills",
     "skillsGroup": "Skills Group",
+    "skillsGroupPlaceholder": "Skills Group Name",
     "keywords": "Keywords",
-    "keyword": "Keyword"
+    "ofKeywords": "keywords",
+    "keyword": "Keyword",
+    "keywordsPlaceholder": "Keyword 1, Keyword 2, ...",
+    "emptyKeywordsHint": "No keywords. Click \"Edit\" to add.",
+    "titleAdd": "Add Skill",
+    "titleEdit": "Edit Skill"
   },
   "certifications": {
     "title": "Certifications",
