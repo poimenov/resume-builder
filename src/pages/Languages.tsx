@@ -78,11 +78,11 @@ const useStyles = makeStyles({
 });
 
 const levels = [
-  { value: "native" },
-  { value: "fluent" },
-  { value: "advanced" },
-  { value: "intermediate" },
   { value: "beginner" },
+  { value: "intermediate" },
+  { value: "advanced" },
+  { value: "fluent" },
+  { value: "native" },
 ];
 
 export const Languages: React.FC = () => {
@@ -91,9 +91,10 @@ export const Languages: React.FC = () => {
   const resume = useStore($resume);
   const [newLanguage, setNewLanguage] = useState("");
   const [newFluency, setNewFluency] = useState("intermediate");
-  const fluencyLevels = levels.map((l) => ({
+  const fluencyLevels = levels.map((l, i) => ({
     value: l.value,
     label: t(`languages.fluencyLevel.${l.value}`),
+    level: i + 1,
   }));
 
   const handleAddLanguage = () => {
@@ -102,7 +103,7 @@ export const Languages: React.FC = () => {
         id: Date.now().toString(),
         name: newLanguage.trim(),
         fluency: newFluency,
-        level: fluencyLevels.findIndex((l) => l.value === newFluency) + 1,
+        level: fluencyLevels.find((l) => l.value === newFluency)?.level,
       });
       setNewLanguage("");
       setNewFluency("intermediate");
