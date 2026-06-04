@@ -1,5 +1,6 @@
 import React from "react";
-import { makeStyles, tokens, Text, Body1 } from "@fluentui/react-components";
+import { useTranslation } from "react-i18next";
+import { makeStyles, tokens } from "@fluentui/react-components";
 import type { Resume } from "../models/Resume";
 
 const useStyles = makeStyles({
@@ -10,6 +11,7 @@ const useStyles = makeStyles({
     fontFamily:
       "'-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', sans-serif",
     backgroundColor: "white",
+    borderRadius: tokens.borderRadiusLarge,
   },
   header: {
     marginBottom: tokens.spacingVerticalXL,
@@ -62,7 +64,7 @@ const useStyles = makeStyles({
   },
   position: {
     fontSize: "16px",
-    fontWeight: "600",
+    fontWeight: "400",
     color: "#222",
   },
   company: {
@@ -73,6 +75,11 @@ const useStyles = makeStyles({
   period: {
     fontSize: "12px",
     color: "#999",
+  },
+  location: {
+    fontSize: "11px",
+    color: "#aaa",
+    marginTop: "2px",
   },
   description: {
     fontSize: "13px",
@@ -92,18 +99,31 @@ const useStyles = makeStyles({
     fontSize: "13px",
     color: "#666",
   },
-  skillsGrid: {
+  educationPeriod: {
+    fontSize: "11px",
+    color: "#999",
+    marginTop: "2px",
+  },
+  educationLocation: {
+    fontSize: "11px",
+    color: "#aaa",
+    marginTop: "2px",
+  },
+  skillsList: {
     display: "flex",
-    flexWrap: "wrap",
-    gap: tokens.spacingHorizontalS,
+    flexDirection: "column",
+    gap: tokens.spacingVerticalXS,
   },
   skillItem: {
     fontSize: "13px",
-    color: "#444",
-    "&:not(:last-child)::after": {
-      content: "','",
-      marginLeft: "2px",
-    },
+    lineHeight: 1.4,
+  },
+  skillName: {
+    fontWeight: "600",
+    color: "#333",
+  },
+  skillKeywords: {
+    color: "#666",
   },
   languageRow: {
     display: "flex",
@@ -122,29 +142,13 @@ const useStyles = makeStyles({
   },
   link: {
     color: "#666",
+    marginRight: tokens.spacingHorizontalS,
     textDecoration: "none",
     fontSize: "12px",
     "&:hover": {
       color: "#111",
       textDecoration: "underline",
     },
-  },
-  summary: {
-    fontSize: "14px",
-    lineHeight: 1.6,
-    color: "#555",
-  },
-  headerWithPhoto: {
-    display: "flex",
-    gap: tokens.spacingHorizontalL,
-    alignItems: "center",
-    marginBottom: tokens.spacingVerticalL,
-  },
-  avatar: {
-    width: "80px",
-    height: "80px",
-    borderRadius: "50%",
-    objectFit: "cover",
   },
   summaryContent: {
     fontSize: "14px",
@@ -165,9 +169,60 @@ const useStyles = makeStyles({
       marginBottom: "4px",
     },
   },
+  headerWithPhoto: {
+    display: "flex",
+    gap: tokens.spacingHorizontalL,
+    alignItems: "center",
+    marginBottom: tokens.spacingVerticalL,
+  },
+  avatar: {
+    width: "80px",
+    height: "80px",
+    borderRadius: "50%",
+    objectFit: "cover",
+  },
+  certificationsList: {
+    display: "flex",
+    flexDirection: "column",
+    gap: tokens.spacingVerticalS,
+  },
+  certificationItem: {
+    marginBottom: tokens.spacingVerticalXS,
+  },
+  certificationName: {
+    fontSize: "13px",
+    fontWeight: "600",
+    color: "#333",
+  },
+  certificationIssuer: {
+    fontSize: "11px",
+    color: "#666",
+  },
+  certificationDate: {
+    fontSize: "10px",
+    color: "#999",
+  },
+  certificationLink: {
+    fontSize: "10px",
+    color: "#666",
+    textDecoration: "none",
+    "&:hover": {
+      textDecoration: "underline",
+    },
+  },
+  companyLink: {
+    fontSize: "16px",
+    fontWeight: "400",
+    color: "#555",
+    textDecoration: "none",
+    "&:hover": {
+      textDecoration: "underline",
+    },
+  },
 });
 
 export const MinimalTemplate: React.FC<{ resume: Resume }> = ({ resume }) => {
+  const { t } = useTranslation();
   const styles = useStyles();
   const {
     basicInfo,
@@ -175,6 +230,7 @@ export const MinimalTemplate: React.FC<{ resume: Resume }> = ({ resume }) => {
     summary,
     experiences,
     educations,
+    certifications,
     skills,
     languages,
   } = resume;
@@ -192,18 +248,20 @@ export const MinimalTemplate: React.FC<{ resume: Resume }> = ({ resume }) => {
             />
             <div>
               <div className={styles.name}>
-                {basicInfo.name || "Имя Фамилия"}
+                {basicInfo.name || t("basicInfo.name")}
               </div>
               <div className={styles.title}>
-                {basicInfo.position || "Должность"}
+                {basicInfo.position || t("basicInfo.position")}
               </div>
             </div>
           </div>
         ) : (
           <>
-            <div className={styles.name}>{basicInfo.name || "Имя Фамилия"}</div>
+            <div className={styles.name}>
+              {basicInfo.name || t("basicInfo.name")}
+            </div>
             <div className={styles.title}>
-              {basicInfo.position || "Должность"}
+              {basicInfo.position || t("basicInfo.position")}
             </div>
           </>
         )}
@@ -211,24 +269,26 @@ export const MinimalTemplate: React.FC<{ resume: Resume }> = ({ resume }) => {
           {basicInfo.email && <span>{basicInfo.email}</span>}
           {basicInfo.phone && <span>{basicInfo.phone}</span>}
           {basicInfo.location && <span>{basicInfo.location}</span>}
-          {links.slice(0, 2).map((link, idx) => (
-            <a
-              key={idx}
-              href={link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.link}
-            >
-              {link.replace(/^https?:\/\//, "").replace(/\/$/, "")}
-            </a>
-          ))}
+          <div>
+            {links.map((link, idx) => (
+              <a
+                key={idx}
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.link}
+              >
+                {link.replace(/^https?:\/\//, "").replace(/\/$/, "")}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Summary */}
       {summary && (
         <div className={styles.section}>
-          <div className={styles.sectionTitle}>О себе</div>
+          <div className={styles.sectionTitle}>{t("summary.title")}</div>
           <div
             className={styles.summaryContent}
             dangerouslySetInnerHTML={{ __html: summary }}
@@ -239,16 +299,34 @@ export const MinimalTemplate: React.FC<{ resume: Resume }> = ({ resume }) => {
       {/* Experience */}
       {experiences.length > 0 && (
         <div className={styles.section}>
-          <div className={styles.sectionTitle}>Опыт</div>
+          <div className={styles.sectionTitle}>{t("experiences.title")}</div>
           {experiences.map((exp, idx) => (
             <div key={idx} className={styles.experienceItem}>
               <div className={styles.experienceHeader}>
                 <div>
                   <span className={styles.position}>{exp.position}</span>
-                  {exp.company && `, ${exp.company}`}
+                  {exp.website ? (
+                    <a
+                      href={exp.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.companyLink}
+                    >
+                      {`, ${exp.company}`}
+                    </a>
+                  ) : (
+                    exp.company && (
+                      <span
+                        className={styles.company}
+                      >{`, ${exp.company}`}</span>
+                    )
+                  )}
                 </div>
                 <div className={styles.period}>{exp.period}</div>
               </div>
+              {exp.location && (
+                <div className={styles.location}>{exp.location}</div>
+              )}
               <div className={styles.description}>{exp.description}</div>
             </div>
           ))}
@@ -258,7 +336,7 @@ export const MinimalTemplate: React.FC<{ resume: Resume }> = ({ resume }) => {
       {/* Education */}
       {educations.length > 0 && (
         <div className={styles.section}>
-          <div className={styles.sectionTitle}>Образование</div>
+          <div className={styles.sectionTitle}>{t("educations.title")}</div>
           {educations.map((edu, idx) => (
             <div key={idx} className={styles.educationItem}>
               <div className={styles.degree}>
@@ -266,21 +344,32 @@ export const MinimalTemplate: React.FC<{ resume: Resume }> = ({ resume }) => {
                 {edu.grade && `, ${edu.grade}`}
               </div>
               <div className={styles.school}>{edu.school}</div>
-              <div className={styles.period}>{edu.period}</div>
+              {edu.period && (
+                <div className={styles.educationPeriod}>{edu.period}</div>
+              )}
+              {edu.location && (
+                <div className={styles.educationLocation}>{edu.location}</div>
+              )}
+              {edu.area && <div className={styles.description}>{edu.area}</div>}
             </div>
           ))}
         </div>
       )}
 
-      {/* Skills */}
+      {/* Skills - упрощенный формат */}
       {skills.length > 0 && (
         <div className={styles.section}>
-          <div className={styles.sectionTitle}>Навыки</div>
-          <div className={styles.skillsGrid}>
+          <div className={styles.sectionTitle}>{t("skills.title")}</div>
+          <div className={styles.skillsList}>
             {skills.map((skill, idx) => (
-              <span key={idx} className={styles.skillItem}>
-                {skill.name}
-              </span>
+              <div key={idx} className={styles.skillItem}>
+                <span className={styles.skillName}>{skill.name}</span>
+                {skill.keywords && skill.keywords.length > 0 && (
+                  <span className={styles.skillKeywords}>
+                    : {skill.keywords.join(", ")}
+                  </span>
+                )}
+              </div>
             ))}
           </div>
         </div>
@@ -289,13 +378,52 @@ export const MinimalTemplate: React.FC<{ resume: Resume }> = ({ resume }) => {
       {/* Languages */}
       {languages.length > 0 && (
         <div className={styles.section}>
-          <div className={styles.sectionTitle}>Языки</div>
+          <div className={styles.sectionTitle}>{t("languages.title")}</div>
           {languages.map((lang, idx) => (
             <div key={idx} className={styles.languageRow}>
               <span className={styles.languageName}>{lang.name}</span>
               <span className={styles.languageLevel}>{lang.fluency}</span>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Certifications */}
+      {certifications && certifications.length > 0 && (
+        <div className={styles.section}>
+          <div className={styles.sectionTitle}>{t("certifications.title")}</div>
+          <div className={styles.certificationsList}>
+            {certifications.map((cert, idx) => (
+              <div key={idx} className={styles.certificationItem}>
+                <div className={styles.certificationName}>{cert.name}</div>
+                <div>
+                  <span className={styles.certificationIssuer}>
+                    {cert.issuer}
+                  </span>
+                  {cert.date && (
+                    <span className={styles.certificationDate}>
+                      {" • "}
+                      {cert.date}
+                    </span>
+                  )}
+
+                  {cert.label && cert.website && (
+                    <span className={styles.certificationDate}>
+                      {" • "}
+                      <a
+                        href={cert.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.certificationLink}
+                      >
+                        {cert.label}
+                      </a>
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>
