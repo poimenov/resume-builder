@@ -148,10 +148,7 @@ export const removeLanguage = (index: number) => {
 
 export const addCertification = (cert: Certification) => {
   const current = $resume.get().certifications || [];
-  $resume.setKey("certifications", [
-    ...current,
-    { ...cert, id: Date.now().toString() },
-  ]);
+  $resume.setKey("certifications", [...current, { ...cert }]);
 };
 
 export const updateCertification = (

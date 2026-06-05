@@ -27,7 +27,6 @@ export interface Education {
 }
 
 export interface Certification {
-  id?: string;
   name: string;
   issuer: string;
   date: string;
@@ -36,13 +35,11 @@ export interface Certification {
 }
 
 export interface Skill {
-  id?: string;
   name: string;
   keywords?: string[];
 }
 
 export interface Language {
-  id?: string;
   name: string;
   fluency: string;
   level?: number;

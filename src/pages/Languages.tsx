@@ -100,7 +100,6 @@ export const Languages: React.FC = () => {
   const handleAddLanguage = () => {
     if (newLanguage.trim()) {
       addLanguage({
-        id: Date.now().toString(),
         name: newLanguage.trim(),
         fluency: newFluency,
         level: fluencyLevels.find((l) => l.value === newFluency)?.level,
@@ -129,7 +128,7 @@ export const Languages: React.FC = () => {
 
       <div className={styles.content}>
         {resume.languages.map((lang, index) => (
-          <Card key={lang.id || index} className={styles.card}>
+          <Card key={lang.name || index} className={styles.card}>
             <CardPreview className={styles.languageItem}>
               <div className={styles.languageName}>
                 <div style={{ fontWeight: 500 }}>{lang.name}</div>

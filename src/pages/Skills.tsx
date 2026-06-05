@@ -122,9 +122,7 @@ export const Skills: React.FC = () => {
           items={resume.skills}
           fields={fields}
           renderItem={renderItem}
-          addItem={(item) =>
-            addSkill({ ...item, id: Date.now().toString() } as Skill)
-          }
+          addItem={(item) => addSkill({ ...item } as Skill)}
           updateItem={(index, item) => updateSkill(index, item)}
           deleteItem={(index) => removeSkill(index)}
           getItemTitle={(item) => item.name}
