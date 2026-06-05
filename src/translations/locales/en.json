@@ -8,6 +8,8 @@
     "cancel": "Cancel",
     "save": "Save",
     "edit": "Edit",
+    "print": "Print",
+    "close": "Close",
     "switchToLanguage": "Switch to Language",
     "switchToDark": "Switch to Dark Mode",
     "switchToLight": "Switch to Light Mode",
@@ -150,5 +152,15 @@
     "remove": "Remove",
     "selectPhotoAlert": "Please select an image file",
     "sizePhotoAlert": "The image must not exceed 300KB"
+  },
+  "printPage": {
+    "title": "Loading resume data...",
+    "wait": "Please wait",
+    "error": "Error",
+    "hint1": "Press Ctrl+P (Cmd+P on Mac) to print or save as PDF",
+    "hint2": "For best results, select \"Save as PDF\" in the print support",
+    "message1": "Failed to load resume data",
+    "message2": "No saved data",
+    "message3": "Error loading data"
   }
 }

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import { getTemplateById } from "../templates";
 import type { Resume } from "../models/Resume";
 
 export const PrintPage: React.FC = () => {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const [resume, setResume] = useState<Resume | null>(null);
   const [isReady, setIsReady] = useState(false);
@@ -34,14 +36,14 @@ export const PrintPage: React.FC = () => {
             console.log("Resume loaded:", resumeData.basicInfo.name);
             setResume(resumeData);
           } else {
-            setError("Не удалось загрузить данные резюме");
+            setError(t("printPage.message1"));
           }
         } else {
-          setError("Нет сохраненных данных резюме");
+          setError(t("printPage.message2"));
         }
       } catch (error) {
         console.error("Error loading resume:", error);
-        setError("Ошибка загрузки данных");
+        setError(t("printPage.message3"));
       }
     };
 
@@ -127,7 +129,7 @@ export const PrintPage: React.FC = () => {
   if (error) {
     return (
       <div className="error-container">
-        <h2>Ошибка</h2>
+        <h2>{t("printPage.error")}</h2>
         <p>{error}</p>
         <button
           onClick={() => window.close()}
@@ -141,7 +143,7 @@ export const PrintPage: React.FC = () => {
             cursor: "pointer",
           }}
         >
-          Закрыть
+          {t("actions.close")}
         </button>
       </div>
     );
@@ -150,8 +152,8 @@ export const PrintPage: React.FC = () => {
   if (!isReady || !resume) {
     return (
       <div className="loading-container">
-        <h2>Загрузка данных резюме...</h2>
-        <p>Пожалуйста, подождите</p>
+        <h2>{t("printPage.title")}</h2>
+        <p>{t("printPage.wait")}</p>
         <div
           style={{
             width: "40px",
@@ -193,11 +195,8 @@ export const PrintPage: React.FC = () => {
           marginTop: "20px",
         }}
       >
-        <p>📄 Нажмите Ctrl+P (Cmd+P на Mac) для печати или сохранения в PDF</p>
-        <p>
-          🖨️ Для лучшего результата выберите "Сохранить как PDF" в настройках
-          печати
-        </p>
+        <p>{t("printPage.hint1")}</p>
+        <p>{t("printPage.hint1")}</p>
         <button
           onClick={() => window.print()}
           style={{
@@ -210,7 +209,7 @@ export const PrintPage: React.FC = () => {
             cursor: "pointer",
           }}
         >
-          Печать
+          {t("actions.print")}
         </button>
       </div>
     </div>
