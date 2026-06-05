@@ -38,8 +38,7 @@
   },
   "summary": {
     "title": "Summary",
-    "placeholder": "Tell us about yourself, your experience, key skills and achievements...",
-    "statusBar": "Ctrl + B - bold, Ctrl + I - italic",
+    "placeholder": "Tell about yourself, your experience, key skills and achievements...",
     "bold": "Bold",
     "italic": "Italic",
     "underline": "Underline",
@@ -47,11 +46,17 @@
     "heading1": "Heading 1",
     "heading2": "Heading 2",
     "divider": "Divider",
-    "bulletedList": "Bulleted List",
-    "numberedList": "Numbered List",
+    "bulletList": "Bullet list",
+    "numberedList": "Numbered list",
     "quote": "Quote",
     "undo": "Undo",
-    "redo": "Redo"
+    "redo": "Redo",
+    "insertLink": "Insert link",
+    "removeLink": "Remove link",
+    "linkUrl": "Link URL",
+    "linkText": "Link text (optional)",
+    "linkTextPlaceholder": "Enter link text",
+    "statusBar": "Use the toolbar to format text"
   },
   "experiences": {
     "title": "Experiences",

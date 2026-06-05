@@ -1,6 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
-import { makeStyles, tokens, Title1 } from "@fluentui/react-components";
+import {
+  makeStyles,
+  tokens,
+  Title1,
+  Dialog,
+  DialogSurface,
+  DialogTitle,
+  DialogBody,
+  DialogActions,
+  DialogContent,
+  Input,
+  Button,
+} from "@fluentui/react-components";
 import { DocumentText20Regular } from "@fluentui/react-icons";
 import { useTranslation } from "react-i18next";
 import { useStore } from "@nanostores/react";
@@ -9,6 +21,7 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Placeholder from "@tiptap/extension-placeholder";
+import Link from "@tiptap/extension-link";
 import {
   Bold,
   Italic,
@@ -22,6 +35,8 @@ import {
   Redo,
   Minus,
   Quote,
+  Link as LinkIcon,
+  Unlink,
 } from "lucide-react";
 
 const useStyles = makeStyles({
@@ -54,7 +69,6 @@ const useStyles = makeStyles({
     transition: "box-shadow 0.2s ease",
     "&:focus-within": {
       boxShadow: tokens.shadow8,
-      //borderColor: tokens.colorBrandStroke1,
     },
   },
   toolbar: {
@@ -99,12 +113,6 @@ const useStyles = makeStyles({
       height: "16px",
     },
   },
-  divider: {
-    width: "1px",
-    height: "24px",
-    backgroundColor: tokens.colorNeutralStroke2,
-    margin: "0 4px",
-  },
   editor: {
     "& .ProseMirror": {
       padding: "20px 24px",
@@ -122,14 +130,12 @@ const useStyles = makeStyles({
       "&::-webkit-scrollbar-track": {
         background: tokens.colorNeutralStroke2,
         borderRadius: "4px",
-        cursor: "default",
       },
       "&::-webkit-scrollbar-thumb": {
         background: tokens.colorNeutralStroke1,
         borderRadius: "4px",
         "&:hover": {
           background: tokens.colorBrandStroke1,
-          cursor: "default",
         },
       },
 
@@ -235,19 +241,84 @@ const useStyles = makeStyles({
     fontSize: "12px",
     color: tokens.colorNeutralForeground3,
   },
-  wordCount: {
+  linkDialogContent: {
     display: "flex",
-    gap: tokens.spacingHorizontalM,
+    flexDirection: "column",
+    gap: tokens.spacingVerticalL,
+  },
+  linkField: {
+    display: "flex",
+    flexDirection: "column",
+    gap: tokens.spacingVerticalXS,
+  },
+  linkLabel: {
+    fontWeight: 500,
+    fontSize: tokens.fontSizeBase200,
   },
 });
 
 const MenuBar = ({ editor }: { editor: any }) => {
   const { t } = useTranslation();
   const styles = useStyles();
+  const [isLinkDialogOpen, setIsLinkDialogOpen] = useState(false);
+  const [linkUrl, setLinkUrl] = useState("");
+  const [linkText, setLinkText] = useState("");
 
   if (!editor) {
     return null;
   }
+
+  const handleSetLink = () => {
+    if (linkUrl) {
+      // Если есть выделенный текст, используем его, иначе используем URL как текст
+      const text = linkText || linkUrl;
+
+      // Вставляем ссылку
+      editor
+        .chain()
+        .focus()
+        .extendMarkRange("link")
+        .insertContent({
+          type: "text",
+          text: text,
+          marks: [
+            {
+              type: "link",
+              attrs: {
+                href: linkUrl,
+                target: "_blank",
+              },
+            },
+          ],
+        })
+        .run();
+
+      // Очищаем поля и закрываем диалог
+      setLinkUrl("");
+      setLinkText("");
+      setIsLinkDialogOpen(false);
+    }
+  };
+
+  const handleUnsetLink = () => {
+    editor.chain().focus().unsetLink().run();
+  };
+
+  // Получаем текущую ссылку, если курсор на ней
+  const handleOpenLinkDialog = () => {
+    const { from, to } = editor.state.selection;
+    const selectedText = editor.state.doc.textBetween(from, to, " ");
+
+    // Проверяем, есть ли ссылка в текущей позиции
+    const linkMark = editor.isActive("link");
+    if (linkMark) {
+      // Получаем атрибуты ссылки
+      const attrs = editor.getAttributes("link");
+      setLinkUrl(attrs.href || "");
+    }
+    setLinkText(selectedText);
+    setIsLinkDialogOpen(true);
+  };
 
   const buttons = [
     {
@@ -331,6 +402,23 @@ const MenuBar = ({ editor }: { editor: any }) => {
       group: 4,
       items: [
         {
+          icon: <LinkIcon />,
+          action: handleOpenLinkDialog,
+          isActive: editor.isActive("link"),
+          title: t("summary.insertLink"),
+        },
+        {
+          icon: <Unlink />,
+          action: handleUnsetLink,
+          isActive: false,
+          title: t("summary.removeLink"),
+        },
+      ],
+    },
+    {
+      group: 5,
+      items: [
+        {
           icon: <Undo />,
           action: () => editor.chain().focus().undo().run(),
           isActive: false,
@@ -347,22 +435,76 @@ const MenuBar = ({ editor }: { editor: any }) => {
   ];
 
   return (
-    <div className={styles.toolbar}>
-      {buttons.map((group, idx) => (
-        <div key={idx} className={styles.toolbarGroup}>
-          {group.items.map((button, btnIdx) => (
-            <button
-              key={btnIdx}
-              onClick={button.action}
-              className={`${styles.toolbarButton} ${button.isActive ? "is-active" : ""}`}
-              title={button.title}
-            >
-              {button.icon}
-            </button>
-          ))}
-        </div>
-      ))}
-    </div>
+    <>
+      <div className={styles.toolbar}>
+        {buttons.map((group, idx) => (
+          <div key={idx} className={styles.toolbarGroup}>
+            {group.items.map((button, btnIdx) => (
+              <button
+                key={btnIdx}
+                onClick={button.action}
+                className={`${styles.toolbarButton} ${button.isActive ? "is-active" : ""}`}
+                title={button.title}
+              >
+                {button.icon}
+              </button>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      {/* Диалог для вставки ссылки */}
+      <Dialog
+        open={isLinkDialogOpen}
+        onOpenChange={(_, data) => setIsLinkDialogOpen(data.open)}
+      >
+        <DialogSurface>
+          <DialogBody>
+            <DialogTitle>{t("summary.insertLink")}</DialogTitle>
+            <DialogContent>
+              <div className={styles.linkDialogContent}>
+                <div className={styles.linkField}>
+                  <label className={styles.linkLabel}>
+                    {t("summary.linkUrl")}
+                  </label>
+                  <Input
+                    value={linkUrl}
+                    onChange={(e) => setLinkUrl(e.target.value)}
+                    placeholder="https://example.com"
+                    autoFocus
+                  />
+                </div>
+                <div className={styles.linkField}>
+                  <label className={styles.linkLabel}>
+                    {t("summary.linkText")}
+                  </label>
+                  <Input
+                    value={linkText}
+                    onChange={(e) => setLinkText(e.target.value)}
+                    placeholder={t("summary.linkTextPlaceholder")}
+                  />
+                </div>
+              </div>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                appearance="secondary"
+                onClick={() => setIsLinkDialogOpen(false)}
+              >
+                {t("actions.cancel")}
+              </Button>
+              <Button
+                appearance="primary"
+                onClick={handleSetLink}
+                disabled={!linkUrl}
+              >
+                {t("summary.insertLink")}
+              </Button>
+            </DialogActions>
+          </DialogBody>
+        </DialogSurface>
+      </Dialog>
+    </>
   );
 };
 
@@ -380,6 +522,13 @@ export const Summary: React.FC = () => {
         horizontalRule: {},
       }),
       Underline,
+      Link.configure({
+        openOnClick: true,
+        HTMLAttributes: {
+          target: "_blank",
+          rel: "noopener noreferrer",
+        },
+      }),
       Placeholder.configure({
         placeholder: t("summary.placeholder"),
       }),
@@ -397,7 +546,9 @@ export const Summary: React.FC = () => {
   });
 
   useEffect(() => {
-    editor.commands.setContent(resume.summary);
+    if (editor && resume.summary !== editor.getHTML()) {
+      editor.commands.setContent(resume.summary);
+    }
   }, [editor, resume.summary]);
 
   return (
