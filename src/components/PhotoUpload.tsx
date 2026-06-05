@@ -62,8 +62,8 @@ export const PhotoUpload: React.FC<PhotoUploadProps> = ({
       return;
     }
 
-    // Проверяем размер (максимум 2MB)
-    if (file.size > 2 * 1024 * 1024) {
+    // Проверяем размер (максимум 300KB)
+    if (file.size > 300 * 1024) {
       alert(t("photoUpload.sizePhotoAlert"));
       return;
     }

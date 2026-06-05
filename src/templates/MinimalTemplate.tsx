@@ -96,8 +96,16 @@ const useStyles = makeStyles({
     color: "#222",
   },
   school: {
-    fontSize: "13px",
-    color: "#666",
+    fontSize: "16px",
+    color: "#555",
+    "& a": {
+      color: "#555",
+      fontSize: "16px",
+      textDecoration: "none",
+      "&:hover": {
+        textDecoration: "underline",
+      },
+    },
   },
   educationPeriod: {
     fontSize: "11px",
@@ -167,6 +175,13 @@ const useStyles = makeStyles({
     },
     "& li": {
       marginBottom: "4px",
+    },
+    "& a": {
+      color: "#555",
+      textDecoration: "none",
+      "&:hover": {
+        textDecoration: "underline",
+      },
     },
   },
   headerWithPhoto: {
@@ -339,11 +354,19 @@ export const MinimalTemplate: React.FC<{ resume: Resume }> = ({ resume }) => {
           <div className={styles.sectionTitle}>{t("educations.title")}</div>
           {educations.map((edu, idx) => (
             <div key={idx} className={styles.educationItem}>
+              <div className={styles.school}>
+                {edu.website ? (
+                  <a href={edu.website} target="_blank" rel="noopener">
+                    <strong>{edu.school}</strong>
+                  </a>
+                ) : (
+                  <strong>{edu.school}</strong>
+                )}
+              </div>
               <div className={styles.degree}>
                 {edu.degree}
                 {edu.grade && `, ${edu.grade}`}
               </div>
-              <div className={styles.school}>{edu.school}</div>
               {edu.period && (
                 <div className={styles.educationPeriod}>{edu.period}</div>
               )}

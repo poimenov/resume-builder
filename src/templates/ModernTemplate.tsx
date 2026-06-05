@@ -276,10 +276,10 @@ export const ModernTemplate: React.FC<{ resume: Resume }> = ({ resume }) => {
             </div>
             <div className={styles.profileInfo}>
               <h2 className={styles.profileName}>
-                {basicInfo.name || "Имя Фамилия"}
+                {basicInfo.name || t("basicInfo.name")}
               </h2>
               <p className={styles.profileHeadline}>
-                {basicInfo.position || "Профессиональная роль"}
+                {basicInfo.position || t("basicInfo.position")}
               </p>
             </div>
           </div>

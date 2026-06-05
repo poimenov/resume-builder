@@ -146,9 +146,9 @@
   },
   "photoUpload": {
     "upload": "Upload Photo",
-    "uploadHint": "Recommended size: up to 2MB",
+    "uploadHint": "Recommended size: up to 300KB",
     "remove": "Remove",
     "selectPhotoAlert": "Please select an image file",
-    "sizePhotoAlert": "The image must not exceed 2MB"
+    "sizePhotoAlert": "The image must not exceed 300KB"
   }
 }
