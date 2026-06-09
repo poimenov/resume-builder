@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import { MainLayout } from "./layouts/MainLayout";
 import { PrintPage } from "./pages/PrintPage";
 import { BasicInfo } from "./pages/BasicInfo";
@@ -12,7 +12,7 @@ import { Certifications } from "./pages/Certifications";
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         {/* Основной маршрут с лейаутом */}
         <Route path="/" element={<MainLayout />}>
@@ -29,7 +29,7 @@ function App() {
         {/* Отдельный маршрут для печати (без лейаута, только резюме) */}
         <Route path="/print" element={<PrintPage />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 

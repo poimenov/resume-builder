@@ -105,11 +105,10 @@ export const Header: React.FC<HeaderProps> = ({
       resume: resume,
     };
     localStorage.setItem("resume_for_print", JSON.stringify(resumeData));
-    const printWindow = window.open(
-      `/print?template=${currentTemplate}`,
-      "_blank",
-      "width=800,height=600",
-    );
+    const baseUrl = window.location.origin + window.location.pathname;
+    const printUrl = `${baseUrl}#/print?template=${currentTemplate}`;
+
+    const printWindow = window.open(printUrl, "_blank", "width=800,height=600");
     if (!printWindow) {
       alert(t("importDialog.printWindowAlert"));
     }
@@ -172,11 +171,15 @@ export const Header: React.FC<HeaderProps> = ({
               {/* Подменю Файл */}
               <Menu>
                 <MenuTrigger disableButtonEnhancement>
-                  <MenuItem icon={<Save20Regular />}>{t("menu.file.title")}</MenuItem>
+                  <MenuItem icon={<Save20Regular />}>
+                    {t("menu.file.title")}
+                  </MenuItem>
                 </MenuTrigger>
                 <MenuPopover>
                   <MenuList>
-                    <MenuItem onClick={handleNewResume}>{t("menu.file.new")}</MenuItem>
+                    <MenuItem onClick={handleNewResume}>
+                      {t("menu.file.new")}
+                    </MenuItem>
                     <MenuItem onClick={() => setImportDialogOpen(true)}>
                       {t("menu.file.import")}
                     </MenuItem>
@@ -190,7 +193,9 @@ export const Header: React.FC<HeaderProps> = ({
               {/* Подменю Шаблоны */}
               <Menu>
                 <MenuTrigger disableButtonEnhancement>
-                  <MenuItem icon={<Share20Regular />}>{t("menu.templates.title")}</MenuItem>
+                  <MenuItem icon={<Share20Regular />}>
+                    {t("menu.templates.title")}
+                  </MenuItem>
                 </MenuTrigger>
                 <MenuPopover>
                   <MenuList>
@@ -200,8 +205,12 @@ export const Header: React.FC<HeaderProps> = ({
                         onClick={() => onTemplateChange(template.id)}
                       >
                         <div className={styles.stack}>
-                          {currentTemplate === template.id && <Checkmark20Regular />}
-                          {currentTemplate !== template.id && <span style={{ width: "20px" }}>&nbsp;</span>}
+                          {currentTemplate === template.id && (
+                            <Checkmark20Regular />
+                          )}
+                          {currentTemplate !== template.id && (
+                            <span style={{ width: "20px" }}>&nbsp;</span>
+                          )}
                           {t(`menu.templates.${template.id}`)}
                         </div>
                       </MenuItem>
@@ -232,7 +241,9 @@ export const Header: React.FC<HeaderProps> = ({
               {/* Подменю Язык */}
               <Menu>
                 <MenuTrigger disableButtonEnhancement>
-                  <MenuItem icon={<LocalLanguage20Regular />}>{t("menu.language")}</MenuItem>
+                  <MenuItem icon={<LocalLanguage20Regular />}>
+                    {t("menu.language")}
+                  </MenuItem>
                 </MenuTrigger>
                 <MenuPopover>
                   <MenuList>
@@ -242,8 +253,12 @@ export const Header: React.FC<HeaderProps> = ({
                         onClick={() => i18n.changeLanguage(lang.code)}
                       >
                         <div className={styles.stack}>
-                          {i18n.language === lang.code && <Checkmark20Regular />}
-                          {i18n.language !== lang.code && <span style={{ width: "20px" }}>&nbsp;</span>}
+                          {i18n.language === lang.code && (
+                            <Checkmark20Regular />
+                          )}
+                          {i18n.language !== lang.code && (
+                            <span style={{ width: "20px" }}>&nbsp;</span>
+                          )}
                           {lang.label}
                         </div>
                       </MenuItem>
